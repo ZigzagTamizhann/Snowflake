@@ -2,7 +2,6 @@ from machine import Pin, time_pulse_us
 import time
 
 #vajra-include-begin Ultrasonic
-#vajra
 
 class Ultrasonic:
     """Measures distance using an HC-SR04 ultrasonic sensor."""
