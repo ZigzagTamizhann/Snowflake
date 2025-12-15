@@ -1,0 +1,285 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "-TlOr++55W=UrHP^RUp=",
+        "x": 275,
+        "y": -132,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "sfpinmode",
+              "id": "}6a4c},1}$:yj?Nom+N!",
+              "fields": {
+                "value": "3",
+                "pinmode": "OUTPUT"
+              },
+              "next": {
+                "block": {
+                  "type": "sfpinmode",
+                  "id": "rSHRe,/(82*(kpJQKU#v",
+                  "fields": {
+                    "value": "2",
+                    "pinmode": "OUTPUT"
+                  },
+                  "next": {
+                    "block": {
+                      "type": "sfpinmode",
+                      "id": "zY5uZz*FEn}Y8iQq`E,v",
+                      "fields": {
+                        "value": "5",
+                        "pinmode": "OUTPUT"
+                      },
+                      "next": {
+                        "block": {
+                          "type": "sfpinmode",
+                          "id": "sh(~sec=kY+%G5x3$Xm2",
+                          "fields": {
+                            "value": "4",
+                            "pinmode": "OUTPUT"
+                          },
+                          "next": {
+                            "block": {
+                              "type": "sfconnect_us1",
+                              "id": "U;(45`/BP*}|]xvr$Zgx",
+                              "fields": {
+                                "ID": "US1",
+                                "echo": "14",
+                                "trigger": "15"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "serial_print",
+              "id": "a??9$R_6UN`46INt0sS*",
+              "inputs": {
+                "CONTENT": {
+                  "block": {
+                    "type": "US1",
+                    "id": "[a[nrdMGzsc+cy?kLj]1",
+                    "fields": {
+                      "value": "US1"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "custom_if",
+                  "id": "|R}s`t!5TnwS#_3OFa[d",
+                  "inputs": {
+                    "IF0": {
+                      "block": {
+                        "type": "custom_compare",
+                        "id": "62ClGoo)AOjs62,-hc8n",
+                        "fields": {
+                          "OP": "LT"
+                        },
+                        "inputs": {
+                          "A": {
+                            "block": {
+                              "type": "US1",
+                              "id": "9r15nilV=h?aER1T0ld!",
+                              "fields": {
+                                "value": "US1"
+                              }
+                            }
+                          },
+                          "B": {
+                            "block": {
+                              "type": "input_value",
+                              "id": ":4qX+p[7Tj*#SyH-Fhmp",
+                              "fields": {
+                                "value": 20
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "DO0": {
+                      "block": {
+                        "type": "all_led_control",
+                        "id": "`U7jAA5TbO~MK|0/xL/)",
+                        "fields": {
+                          "COLOR": "#ff1500"
+                        },
+                        "next": {
+                          "block": {
+                            "type": "sfdigital_write",
+                            "id": "[E$JXOI=fUB?su;7)W4U",
+                            "fields": {
+                              "pin": "3",
+                              "value": "LOW"
+                            },
+                            "next": {
+                              "block": {
+                                "type": "sfdigital_write",
+                                "id": "AHig~K3}}grkd$#Z3T^j",
+                                "fields": {
+                                  "pin": "2",
+                                  "value": "LOW"
+                                },
+                                "next": {
+                                  "block": {
+                                    "type": "sfdigital_write",
+                                    "id": "=|iGz=Y4WG%F(YtVDr-f",
+                                    "fields": {
+                                      "pin": "5",
+                                      "value": "LOW"
+                                    },
+                                    "next": {
+                                      "block": {
+                                        "type": "sfdigital_write",
+                                        "id": "|0pVlTUHM}R.}N81c-/v",
+                                        "fields": {
+                                          "pin": "4",
+                                          "value": "LOW"
+                                        },
+                                        "next": {
+                                          "block": {
+                                            "type": "delay",
+                                            "id": "3xzL{+3@V@!vtE03tH!|",
+                                            "fields": {
+                                              "ms": "1000"
+                                            },
+                                            "next": {
+                                              "block": {
+                                                "type": "sfdigital_write",
+                                                "id": "ccP$`}:h_%jJWgMgh*c*",
+                                                "fields": {
+                                                  "pin": "3",
+                                                  "value": "HIGH"
+                                                },
+                                                "next": {
+                                                  "block": {
+                                                    "type": "sfdigital_write",
+                                                    "id": "G@lBHe/u]LYU;4nBZ57!",
+                                                    "fields": {
+                                                      "pin": "2",
+                                                      "value": "LOW"
+                                                    },
+                                                    "next": {
+                                                      "block": {
+                                                        "type": "sfdigital_write",
+                                                        "id": ":`@i:`%XhPOF2_cGkB.V",
+                                                        "fields": {
+                                                          "pin": "5",
+                                                          "value": "LOW"
+                                                        },
+                                                        "next": {
+                                                          "block": {
+                                                            "type": "sfdigital_write",
+                                                            "id": "{6OF-fWmw;9O$9qJ2$,y",
+                                                            "fields": {
+                                                              "pin": "4",
+                                                              "value": "HIGH"
+                                                            },
+                                                            "next": {
+                                                              "block": {
+                                                                "type": "delay",
+                                                                "id": "}PDOzs*am~^*A{4sAdN?",
+                                                                "fields": {
+                                                                  "ms": "1000"
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "custom_else",
+                      "id": "jJwPPg^d::ep;=5ov$(s",
+                      "inputs": {
+                        "DO": {
+                          "block": {
+                            "type": "all_led_control",
+                            "id": "}hD*?RBp:uP#79+jl=+M",
+                            "fields": {
+                              "COLOR": "#04ff00"
+                            },
+                            "next": {
+                              "block": {
+                                "type": "sfdigital_write",
+                                "id": "Ld=)T9{rjK!A2N`Yc]i~",
+                                "fields": {
+                                  "pin": "3",
+                                  "value": "HIGH"
+                                },
+                                "next": {
+                                  "block": {
+                                    "type": "sfdigital_write",
+                                    "id": "p@1r-5fxXm`/^=7VQ,$8",
+                                    "fields": {
+                                      "pin": "2",
+                                      "value": "LOW"
+                                    },
+                                    "next": {
+                                      "block": {
+                                        "type": "sfdigital_write",
+                                        "id": "BPm$6?%*DE*s$06KX{.(",
+                                        "fields": {
+                                          "pin": "5",
+                                          "value": "HIGH"
+                                        },
+                                        "next": {
+                                          "block": {
+                                            "type": "sfdigital_write",
+                                            "id": "@vA[`CuFS[h:B;D7YtMQ",
+                                            "fields": {
+                                              "pin": "4",
+                                              "value": "LOW"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "Snowflake"
+}
