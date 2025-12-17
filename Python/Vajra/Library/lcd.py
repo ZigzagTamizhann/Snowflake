@@ -1,10 +1,10 @@
 # Rui Santos & Sara Santos - Random Nerd Tutorials
 # Complete project details at https://RandomNerdTutorials.com/micropython-i2c-lcd-esp32-esp8266/
 
-from machine import Pin, SoftI2C
+from machine import Pin, SoftI2C # type: ignore
 from LCD_LIB import I2cLcd
 from time import sleep
-import Subu
+import Subu # type: ignore
 
 # Define the LCD I2C address and dimensions
 I2C_ADDR = 0x27
