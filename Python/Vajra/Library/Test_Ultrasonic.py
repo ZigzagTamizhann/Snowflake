@@ -1,8 +1,8 @@
 import time
-import Snowflake
+import Subu
 from Ultrasonic import Ultrasonic
 
-sensor = Ultrasonic(Snowflake.IO9, Snowflake.IO10)
+sensor = Ultrasonic(Subu.IO1, Subu.IO2)
 
 print("Starting Ultrasonic Distance Test...")
 
