@@ -5,8 +5,8 @@ import Subu
 # Define the two pins connecting to the Driver (IN1, IN2)
 # ESP32: 14, 15
 # Pico: 14, 15
-IN1_PIN = Subu.IO2
-IN2_PIN = Subu.IO3
+IN1_PIN = Subu.IO3
+IN2_PIN = Subu.IO4
 
 # Setup PWM on both pins (Frequency 1000Hz is standard for motors)
 motor_p1 = PWM(Pin(IN1_PIN), freq=1000)
