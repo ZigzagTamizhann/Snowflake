@@ -4,7 +4,7 @@ import Subu
 
 # 1. Setup the Relay Pin
 # We use Pin.OUT because we are sending a signal OUT to the relay
-relay_pin = Pin(Subu.IO2, Pin.OUT)
+relay_pin = Pin(Subu.IO3, Pin.OUT)
 
 print("Relay Test Starting...")
 
