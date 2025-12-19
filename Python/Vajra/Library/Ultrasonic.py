@@ -1,4 +1,4 @@
-from machine import Pin, time_pulse_us
+from machine import Pin, time_pulse_us # type: ignore
 import time
 
 class Ultrasonic:
