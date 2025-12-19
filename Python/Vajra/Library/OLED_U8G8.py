@@ -27,7 +27,7 @@ class SH1106(framebuf.FrameBuffer):
         self.write_cmd(0x00)
         self.write_cmd(0xD5)  # Oscillator frequency
         self.write_cmd(0x80)
-        self.write_cmd(0xD9)  # Pre-charge period
+        self.write_cmd(0xD9)  # Pre-char3ge period
         self.write_cmd(0x22)
         self.write_cmd(0xDA)  # COM hardware config
         self.write_cmd(0x12)
@@ -64,7 +64,7 @@ class SH1106(framebuf.FrameBuffer):
 
 # Subu pins
 i2c_sda = Pin(Subu.IO3)
-i2c_scl = Pin(Subu.IO2)
+i2c_scl = Pin(Subu.IO4)
 
 # Initialize I2C
 # freq=400000 is standard speed

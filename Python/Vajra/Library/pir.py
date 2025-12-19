@@ -16,3 +16,4 @@ class PIR:
         Returns: True if motion detected, False otherwise.
         """
         return self.pin.value() == 1
+    
