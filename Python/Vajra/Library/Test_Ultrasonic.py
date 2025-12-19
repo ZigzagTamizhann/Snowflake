@@ -1,5 +1,5 @@
 import time
-import Subu
+import Subu # type: ignore
 from Ultrasonic import Ultrasonic
 
 sensor = Ultrasonic(Subu.IO1, Subu.IO2)

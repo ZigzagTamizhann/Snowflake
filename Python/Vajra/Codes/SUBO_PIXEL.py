@@ -1,6 +1,6 @@
-import Subu
-from machine import Pin
-import neopixel
+import Subu # type: ignore
+from machine import Pin # type: ignore
+import neopixel # type: ignore
 import time
 
 # --- Configuration ---

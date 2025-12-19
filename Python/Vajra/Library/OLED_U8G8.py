@@ -1,7 +1,7 @@
-from machine import Pin, I2C
-import framebuf
+from machine import Pin, I2C # type: ignore
+import framebuf# type: ignore
 import time
-import Subu
+import Subu # type: ignore
 
 # =========================================
 # SH1106 Driver Class

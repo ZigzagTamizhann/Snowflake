@@ -1,6 +1,6 @@
 import time
-from vibration_sensor import VibrationSensor
-import Subu
+from vibration_sensor import VibrationSensor # type: ignore
+import Subu # type: ignore
 # --- Configuration ---
 VIB_PIN = Subu.IO2
 

@@ -1,7 +1,7 @@
 import time
-from machine import Pin, PWM, UART, time_pulse_us
-import Snowflake
-import urandom
+from machine import Pin, PWM, UART, time_pulse_us # type: ignore
+import Snowflake # type: ignore
+import urandom # type: ignore
 
 # --- Hardware Abstraction Classes ---
 

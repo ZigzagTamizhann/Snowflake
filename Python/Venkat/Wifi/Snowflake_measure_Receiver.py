@@ -1,6 +1,6 @@
 import time
-from machine import Pin, PWM, UART, time_pulse_us
-import Snowflake
+from machine import Pin, PWM, UART, time_pulse_us # type: ignore
+import Snowflake # type: ignore
 
 # --- Hardware Abstraction Classes ---
 class Ultrasonic:

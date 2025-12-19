@@ -1,4 +1,4 @@
-import Subu
+import Subu # type: ignore
 
 Subu.setAllLED((255,0,0))
 Subu.setSingleLED(8,(0,255,0))

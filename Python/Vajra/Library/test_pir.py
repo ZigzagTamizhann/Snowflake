@@ -1,6 +1,6 @@
 import time
-from pir_sensor import PIR  # Importing the class we defined above
-import Subu
+from pir_sensor import PIR   # type: ignore
+import Subu # type: ignore
 # --- Configuration ---
 PIR_PIN = Subu.IO2 # GPIO Pin connected to the sensor output
 

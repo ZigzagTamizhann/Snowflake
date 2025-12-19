@@ -1,6 +1,6 @@
-from machine import Pin, PWM
+from machine import Pin, PWM # type: ignore
 import time
-import Subu
+import Subu # type: ignore # type: ignore
 # --- CONFIGURATION ---
 # Define the two pins connecting to the Driver (IN1, IN2)
 # ESP32: 14, 15

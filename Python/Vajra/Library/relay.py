@@ -1,6 +1,6 @@
-from machine import Pin
+from machine import Pin # type: ignore
 import time
-import Subu
+import Subu # type: ignore
 
 # 1. Setup the Relay Pin
 # We use Pin.OUT because we are sending a signal OUT to the relay

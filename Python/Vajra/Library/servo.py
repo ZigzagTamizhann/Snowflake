@@ -1,6 +1,6 @@
 from machine import Pin, PWM # type: ignore
 import time
-import Subu # type: ignore
+import Subu # type: ignore  # type: ignore# type: ignore
 
 # ==========================================
 # CONFIGURATION

@@ -1,5 +1,5 @@
-import Subu
-from machine import Pin, PWM
+import Subu # type: ignore
+from machine import Pin, PWM # type: ignore
 import time
 
 # --- Configuration ---

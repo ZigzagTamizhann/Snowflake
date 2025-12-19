@@ -1,6 +1,6 @@
-from machine import ADC, Pin
+from machine import ADC, Pin # type: ignore
 import time
-import Subu
+import Subu # type: ignore
 
 # 1. Setup
 gas_pin = Subu.IO5

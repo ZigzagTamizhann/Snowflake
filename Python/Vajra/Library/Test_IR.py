@@ -1,6 +1,6 @@
 import time
 from IR import IR
-import Subu
+import Subu # type: ignore
 
 # Define the GPIO pin connected to the IR sensor
 IR_PIN = Subu.IO2

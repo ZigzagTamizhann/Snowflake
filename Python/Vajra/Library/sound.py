@@ -1,6 +1,6 @@
-from machine import Pin
+from machine import Pin # type: ignore # type: ignore
 import time
-import Subu
+import Subu # type: ignore  # type: ignore # type: ignore
 # --- SETUP ---
 # ESP32: Pin 16
 # Pico: Pin 16

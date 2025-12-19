@@ -1,6 +1,6 @@
-from machine import Pin
+from machine import Pin # type: ignore
 import time
-import Subu  # Assuming you are using the Subu library
+import Subu # type: ignore  # type: ignore # Assuming you are using the Subu library
 
 # Setup the sensor pin
 # Replace Subu.IO1 with the actual pin you connected the SIG wire to

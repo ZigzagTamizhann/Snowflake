@@ -1,5 +1,5 @@
-import Subu 
-from machine import Pin
+import Subu # type: ignore  # type: ignore
+from machine import Pin # type: ignore
 import time
 
 IR_SENSOR_PIN = Subu.IO3

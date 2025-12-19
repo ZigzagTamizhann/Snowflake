@@ -1,10 +1,10 @@
 # Rui Santos & Sara Santos - Random Nerd Tutorials
 # Complete project details at https://RandomNerdTutorials.com/micropython-i2c-lcd-esp32-esp8266/
 
-from machine import Pin, SoftI2C # type: ignore
+from machine import Pin # type: ignore, SoftI2C # type: ignore
 from LCD_LIB import I2cLcd
 from time import sleep
-import Subu # type: ignore
+import Subu # type: ignore  # type: ignore# type: ignore
 
 # Define the LCD I2C address and dimensions
 I2C_ADDR = 0x27
@@ -12,7 +12,7 @@ I2C_NUM_ROWS = 2
 I2C_NUM_COLS = 16
 
 # Initialize I2C and LCD objects
-i2c = SoftI2C(sda=Pin(Subu.IO2), scl=Pin(Subu.IO3), freq=400000)
+i2c = SoftI2C(sda=Pin(Subu.IO2), scl=Pin(Subu.IO3), freq=400000) # type: ignore
 
 # for ESP8266, uncomment the following line
 #i2c = SoftI2C(sda=Pin(4), scl=Pin(5), freq=400000)

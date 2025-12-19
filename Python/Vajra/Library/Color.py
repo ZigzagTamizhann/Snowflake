@@ -1,7 +1,7 @@
-from machine import I2C, Pin
+from machine import I2C, Pin # type: ignore
 import time
 import struct
-import Subu
+import Subu # type: ignore
 
 # --- Configuration ---
 # Update these pins for your specific board!

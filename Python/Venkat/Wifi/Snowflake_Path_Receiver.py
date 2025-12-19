@@ -1,7 +1,7 @@
 # c:\venkat\thonny\Snowflake_WiFi_Control.py
 import time
-from machine import Pin, PWM, UART
-import Snowflake
+from machine import Pin, PWM, UART # type: ignore
+import Snowflake # type: ignore
 
 # --- Hardware Abstraction Classes ---
 

@@ -1,7 +1,7 @@
-import dht
-from machine import Pin
+import dht # type: ignore
+from machine import Pin # type: ignore
 import time
-import Subu
+import Subu # type: ignore
 # --- Configuration ---
 # Change '15' to the GPIO pin number you connected the Data pin to.
 SENSOR_PIN = Subu.IO2

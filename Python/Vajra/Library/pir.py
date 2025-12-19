@@ -1,4 +1,4 @@
-from machine import Pin
+from machine import Pin # type: ignore
 
 class PIR:
     def __init__(self, pin_id):
