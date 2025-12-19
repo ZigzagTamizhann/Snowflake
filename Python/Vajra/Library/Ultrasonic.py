@@ -1,9 +1,6 @@
 from machine import Pin, time_pulse_us
 import time
 
-#vajra-include-begin Ultrasonic 
-#venkat KSDVSKJLBFzkjsdvhzskdhfzsgdfzhfgzhjf
-
 class Ultrasonic:
     """Measures distance using an HC-SR04 ultrasonic sensor."""
     def __init__(self, trigger_pin, echo_pin):
