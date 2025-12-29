@@ -1,0 +1,56 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "l0JPN~!KZpDZ76BxjWdI",
+        "x": 96,
+        "y": 56,
+        "inputs": {
+          "loop": {
+            "block": {
+              "type": "led_control",
+              "id": "3OVbs}oaA0sr;/IJ:]2{",
+              "fields": {
+                "COLOR": "#ff0000"
+              },
+              "inputs": {
+                "value": {
+                  "shadow": {
+                    "type": "math_number",
+                    "id": "aUs!z/ux3b$,:r^}VONd",
+                    "fields": {
+                      "NUM": 4
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "led_control",
+                  "id": "`,3iOrE+CWi3y}%]pH4V",
+                  "fields": {
+                    "COLOR": "#ff0000"
+                  },
+                  "inputs": {
+                    "value": {
+                      "shadow": {
+                        "type": "math_number",
+                        "id": "zYK@PUC69De:!o=m6Iz{",
+                        "fields": {
+                          "NUM": 33
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

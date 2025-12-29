@@ -90,8 +90,8 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.40)
-ir_sensor = IRSensor(left_pin=Snowflake.IO15, right_pin=Snowflake.IO13)
+motor = Motor(a1_pin=Snowflake.IO18, a2_pin=Snowflake.IO19, b1_pin=Snowflake.IO20, b2_pin=Snowflake.IO21, speed=0.40)
+ir_sensor = IRSensor(left_pin=Snowflake.IO1, right_pin=Snowflake.IO4)
 led = LED(num_leds=9)
    
 print("Rope Car - Moving Forward...")

@@ -1,0 +1,176 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "IvNXlYNr9oXsLYk*5t$$",
+        "x": 246,
+        "y": 98,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayopinmode",
+              "id": ":BmVmMpzjzO1n#R9W0mh",
+              "fields": {
+                "value": "39",
+                "pinmode": "INPUT"
+              },
+              "next": {
+                "block": {
+                  "type": "variable",
+                  "id": "!IC@a-):a#W_,kJ:k[mc",
+                  "fields": {
+                    "VAR": "A"
+                  },
+                  "inputs": {
+                    "VALUE": {
+                      "block": {
+                        "type": "input_value",
+                        "id": "v6{MK)VdDi5uLUt-F[[N",
+                        "fields": {
+                          "value": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "variable",
+              "id": "m~JJx2cq7+g7F!fY*5Yr",
+              "fields": {
+                "VAR": "A"
+              },
+              "inputs": {
+                "VALUE": {
+                  "block": {
+                    "type": "cayodigital_read",
+                    "id": "Oav;igHonZ3I6/[ZLB|!",
+                    "fields": {
+                      "value": "39"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "serial_print",
+                  "id": "uyg])oEfw4189C(4@(z$",
+                  "inputs": {
+                    "CONTENT": {
+                      "block": {
+                        "type": "get_variable",
+                        "id": "HYVM/A]|7tkh_giDOYWx",
+                        "fields": {
+                          "VAR": "A"
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "custom_if",
+                      "id": ":FIlh~+ZI%x;Nh4O81:;",
+                      "inputs": {
+                        "IF0": {
+                          "block": {
+                            "type": "custom_compare",
+                            "id": "eHVRGdz=$*oo`WihzjF6",
+                            "fields": {
+                              "OP": "EQ"
+                            },
+                            "inputs": {
+                              "A": {
+                                "block": {
+                                  "type": "get_variable",
+                                  "id": "qyGx7{4]sm#pBsz!mVHs",
+                                  "fields": {
+                                    "VAR": "A"
+                                  }
+                                }
+                              },
+                              "B": {
+                                "block": {
+                                  "type": "input_value",
+                                  "id": "I+hYPjSW)Y|`]$Y,(MAm",
+                                  "fields": {
+                                    "value": 1
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "DO0": {
+                          "block": {
+                            "type": "cayodigital_write",
+                            "id": "$/[C`.;oc)oQrbYNRPtV",
+                            "fields": {
+                              "pin": "39",
+                              "value": "HIGH"
+                            },
+                            "next": {
+                              "block": {
+                                "type": "all_led_control",
+                                "id": "i_54V+Uv6f(gcvy5l33B",
+                                "fields": {
+                                  "COLOR": "#00ff00"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "custom_else",
+                          "id": "io*~||MDo;+b@rFf+=?}",
+                          "inputs": {
+                            "DO": {
+                              "block": {
+                                "type": "cayodigital_write",
+                                "id": "-?6vUjqXm]nF5xGD}0/R",
+                                "fields": {
+                                  "pin": "39",
+                                  "value": "LOW"
+                                },
+                                "next": {
+                                  "block": {
+                                    "type": "all_led_control",
+                                    "id": "LySQp*N[y0QuLdb8hQDy",
+                                    "fields": {
+                                      "COLOR": "#ff3c00"
+                                    },
+                                    "next": {
+                                      "block": {
+                                        "type": "buzzer",
+                                        "id": "^[5PQ80YD.$GotXv^L?b",
+                                        "fields": {
+                                          "frequency": 100,
+                                          "duration": 1
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

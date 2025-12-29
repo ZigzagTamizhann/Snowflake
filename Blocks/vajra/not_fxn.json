@@ -1,0 +1,136 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "^,+;jm1Gw1f|8k+WBnk6",
+        "x": 187,
+        "y": -9,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "variable",
+              "id": "wqR#?p(%@CB@9H[?:c0Z",
+              "fields": {
+                "VAR": "num"
+              },
+              "inputs": {
+                "VALUE": {
+                  "block": {
+                    "type": "input_value",
+                    "id": "n`^;Lp8~fxxlY-MiJx$|",
+                    "fields": {
+                      "value": 9
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "custom_if",
+              "id": "8]cEy[h+8@B7~mSZmk5(",
+              "inputs": {
+                "IF0": {
+                  "block": {
+                    "type": "custom_compare",
+                    "id": "GP(WOb2zFO,/wwHsz:D7",
+                    "fields": {
+                      "OP": "LT"
+                    },
+                    "inputs": {
+                      "A": {
+                        "block": {
+                          "type": "get_variable",
+                          "id": "UX=Wi881BDD9in+%]aZ^",
+                          "fields": {
+                            "VAR": "num"
+                          }
+                        }
+                      },
+                      "B": {
+                        "block": {
+                          "type": "input_value",
+                          "id": "*etPnXr/L{UCR:q%^R;Q",
+                          "fields": {
+                            "value": 5
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "DO0": {
+                  "block": {
+                    "type": "all_led_control",
+                    "id": "M+g]T]Px:zJKf`q^1g4D",
+                    "fields": {
+                      "COLOR": "#ff0000"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "custom_if",
+                  "id": ".Z6,s-Pxa),3^VKtGDJl",
+                  "inputs": {
+                    "IF0": {
+                      "block": {
+                        "type": "custom_not",
+                        "id": "+UryIOx/C].y9JJr{!/H",
+                        "inputs": {
+                          "BOOL": {
+                            "block": {
+                              "type": "custom_compare",
+                              "id": "QhKHy|hmK=iMfXAlp5^d",
+                              "fields": {
+                                "OP": "LT"
+                              },
+                              "inputs": {
+                                "A": {
+                                  "block": {
+                                    "type": "get_variable",
+                                    "id": "U[SIka/P66DHPl5.#_?3",
+                                    "fields": {
+                                      "VAR": "num"
+                                    }
+                                  }
+                                },
+                                "B": {
+                                  "block": {
+                                    "type": "input_value",
+                                    "id": "Q#3OeLVfDATYJInVEohs",
+                                    "fields": {
+                                      "value": 5
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "DO0": {
+                      "block": {
+                        "type": "all_led_control",
+                        "id": "%Kbot70fq+Cv(_Td;n]z",
+                        "fields": {
+                          "COLOR": "#ffe100"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

@@ -1,0 +1,46 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "xGo}}9MuUMs%WYytQXJ~",
+        "x": 259,
+        "y": 84,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayoservo_init",
+              "id": "~|$Ut9/svo!{aE4+K=FH",
+              "fields": {
+                "ID": "Servo1",
+                "pin": "39"
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "servo_individual",
+              "id": "v_ClSNta;E9{*v]?t*fI",
+              "fields": {
+                "ID": "Servo1"
+              },
+              "inputs": {
+                "ANGLE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "id": "6i`5sA|7dv]`E4f!=1i]",
+                    "fields": {
+                      "NUM": 180
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "wheelz"
+}

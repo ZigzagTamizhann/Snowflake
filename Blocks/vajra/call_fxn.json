@@ -1,0 +1,147 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": ";D)UaQq-=Zl7-m,$l!G-",
+        "x": 335,
+        "y": -13,
+        "inputs": {
+          "loop": {
+            "block": {
+              "type": "function_declaration",
+              "id": "=4]..xAdx-Mq6@+p6__X",
+              "fields": {
+                "function_name": "yellow"
+              },
+              "inputs": {
+                "function_body": {
+                  "block": {
+                    "type": "all_led_control",
+                    "id": "xGg]H9wY-feyZ@b?sJQr",
+                    "fields": {
+                      "COLOR": "#ffd000"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "function_declaration",
+                  "id": "eg)Mr$wGnSr[p28!9gGo",
+                  "fields": {
+                    "function_name": "blue"
+                  },
+                  "inputs": {
+                    "function_body": {
+                      "block": {
+                        "type": "all_led_control",
+                        "id": "8H6wynI%z$3#Kna80nm{",
+                        "fields": {
+                          "COLOR": "#00aaff"
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "function_declaration",
+                      "id": "~d@d:t5Va;3Zu7-s+LmT",
+                      "fields": {
+                        "function_name": "green"
+                      },
+                      "inputs": {
+                        "function_body": {
+                          "block": {
+                            "type": "all_led_control",
+                            "id": "FMx(A+tO+*ypNg%$[{Pu",
+                            "fields": {
+                              "COLOR": "#00ff48"
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "custom_if",
+                          "id": "+C([@ps%d{!UVkeKW2Bo",
+                          "inputs": {
+                            "IF0": {
+                              "block": {
+                                "type": "Button",
+                                "id": "G]!$#M-%MKuSsmRfYQa$",
+                                "fields": {
+                                  "button": "ButtonL",
+                                  "value": "1"
+                                }
+                              }
+                            },
+                            "DO0": {
+                              "block": {
+                                "type": "function_call",
+                                "id": "ERneF/$s4JgY`Fi[gGzv",
+                                "fields": {
+                                  "function_name": "blue"
+                                }
+                              }
+                            }
+                          },
+                          "next": {
+                            "block": {
+                              "type": "custom_if",
+                              "id": "=z2l95KzFo%ND/sYo(`Q",
+                              "inputs": {
+                                "IF0": {
+                                  "block": {
+                                    "type": "Button",
+                                    "id": ",c}V/lNp1obLTqTi;%6w",
+                                    "fields": {
+                                      "button": "ButtonR",
+                                      "value": "1"
+                                    }
+                                  }
+                                },
+                                "DO0": {
+                                  "block": {
+                                    "type": "function_call",
+                                    "id": "a$/IgRB:s$dt5m)Y;uU/",
+                                    "fields": {
+                                      "function_name": "green"
+                                    }
+                                  }
+                                }
+                              },
+                              "next": {
+                                "block": {
+                                  "type": "custom_else",
+                                  "id": "pSc(h/.4Eof1+GJl!RnX",
+                                  "inputs": {
+                                    "DO": {
+                                      "block": {
+                                        "type": "function_call",
+                                        "id": "N!myu2Xh.5TgZcoKoc3[",
+                                        "fields": {
+                                          "function_name": "yellow"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

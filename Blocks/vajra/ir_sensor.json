@@ -1,0 +1,156 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "E^`M45ucqbZ+a1cNw9;S",
+        "x": 204,
+        "y": 110,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayopinmode",
+              "id": ":~8zXoV+$.[lizJX7[][",
+              "fields": {
+                "value": "39",
+                "pinmode": "INPUT"
+              },
+              "next": {
+                "block": {
+                  "type": "variable",
+                  "id": "~cbv!Jx!~`JQ{*AyU;;;",
+                  "fields": {
+                    "VAR": "A"
+                  },
+                  "inputs": {
+                    "VALUE": {
+                      "block": {
+                        "type": "input_value",
+                        "id": "QB]*bfX^5NfOpInw8=,X",
+                        "fields": {
+                          "value": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "variable",
+              "id": "*Wr]%1I|Zw,ExHiq/wrF",
+              "fields": {
+                "VAR": "A"
+              },
+              "inputs": {
+                "VALUE": {
+                  "block": {
+                    "type": "cayodigital_read",
+                    "id": "q4l!JRa7pCstVvGs%EiC",
+                    "fields": {
+                      "value": "39"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "serial_print",
+                  "id": "grjj=}Qwi?lHYl{Adrn-",
+                  "inputs": {
+                    "CONTENT": {
+                      "block": {
+                        "type": "get_variable",
+                        "id": "RB!d:L6yC4SOpC@:#IK5",
+                        "fields": {
+                          "VAR": "A"
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "custom_if",
+                      "id": "DBTI[nS$3rKGJJEH[_fh",
+                      "inputs": {
+                        "IF0": {
+                          "block": {
+                            "type": "custom_compare",
+                            "id": "x1onZZj}nMsHW2EgEk~/",
+                            "fields": {
+                              "OP": "EQ"
+                            },
+                            "inputs": {
+                              "A": {
+                                "block": {
+                                  "type": "get_variable",
+                                  "id": "-JU4%ed_a*AzMRfZTP%K",
+                                  "fields": {
+                                    "VAR": "A"
+                                  }
+                                }
+                              },
+                              "B": {
+                                "block": {
+                                  "type": "input_value",
+                                  "id": ";CP{Rh`Ox=/Ge^WNdSxD",
+                                  "fields": {
+                                    "value": 1
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "DO0": {
+                          "block": {
+                            "type": "all_led_control",
+                            "id": "j=tO0`?%F,LJTyN_`%].",
+                            "fields": {
+                              "COLOR": "#00ff00"
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "custom_else",
+                          "id": "~2li`HzXXVbeVI]c?y(*",
+                          "inputs": {
+                            "DO": {
+                              "block": {
+                                "type": "all_led_control",
+                                "id": "H^]O]EMyd-/IS#-|Q^(g",
+                                "fields": {
+                                  "COLOR": "#ff3c00"
+                                },
+                                "next": {
+                                  "block": {
+                                    "type": "buzzer",
+                                    "id": "1/ICJU_z;KFe-$5CKR!_",
+                                    "fields": {
+                                      "frequency": 100,
+                                      "duration": 1
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

@@ -1,0 +1,203 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "custom_if",
+        "id": "VcjGx[..7pt*_}UW_WzN",
+        "x": 306,
+        "y": -29,
+        "inputs": {
+          "IF0": {
+            "block": {
+              "type": "Button",
+              "id": "Qh:yR%VmfQlZ2Q/1@Z|5",
+              "fields": {
+                "button": "ButtonL",
+                "value": "1"
+              }
+            }
+          },
+          "DO0": {
+            "block": {
+              "type": "led_control",
+              "id": "teKedha[3)ZlIwHIf6{6",
+              "fields": {
+                "COLOR": "#ff0000"
+              },
+              "inputs": {
+                "value": {
+                  "shadow": {
+                    "type": "math_number",
+                    "id": "#?$~vLQn$hd?QxXkm2ev",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "led_control",
+                  "id": "aI?EU+e_BGJ]/#|P(eL0",
+                  "fields": {
+                    "COLOR": "#000000"
+                  },
+                  "inputs": {
+                    "value": {
+                      "shadow": {
+                        "type": "math_number",
+                        "id": "B7L;U9/n~~WBa$Upeqgp",
+                        "fields": {
+                          "NUM": 2
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "next": {
+          "block": {
+            "type": "custom_elseif",
+            "id": "P]S!(TW/|xh1`~%_}Ac|",
+            "inputs": {
+              "IF": {
+                "block": {
+                  "type": "Button",
+                  "id": "o$]#^QmnrP5^3QWhQc/}",
+                  "fields": {
+                    "button": "ButtonR",
+                    "value": "1"
+                  }
+                }
+              },
+              "DO": {
+                "block": {
+                  "type": "led_control",
+                  "id": "=giS6a+Jpth3!yNzed,.",
+                  "fields": {
+                    "COLOR": "#00ff08"
+                  },
+                  "inputs": {
+                    "value": {
+                      "shadow": {
+                        "type": "math_number",
+                        "id": "ZPfsTBm#P6~Q56NWXe4R",
+                        "fields": {
+                          "NUM": 2
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "led_control",
+                      "id": "uWV[|/Qp*7~bS0VU4R6W",
+                      "fields": {
+                        "COLOR": "#000000"
+                      },
+                      "inputs": {
+                        "value": {
+                          "shadow": {
+                            "type": "math_number",
+                            "id": "*dwAiKOPc^Pusz^Im:By",
+                            "fields": {
+                              "NUM": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "next": {
+              "block": {
+                "type": "custom_elseif",
+                "id": "f$M6R{!lRWTWP=~i=ytR",
+                "inputs": {
+                  "IF": {
+                    "block": {
+                      "type": "logical_if",
+                      "id": "_7G_::PYb5}$=coD=HJc",
+                      "fields": {
+                        "LOGIC_OP": "AND"
+                      },
+                      "inputs": {
+                        "LEFT": {
+                          "block": {
+                            "type": "Button",
+                            "id": "3x0tNlj+_*W(5Nn[mv7@",
+                            "fields": {
+                              "button": "ButtonR",
+                              "value": "0"
+                            }
+                          }
+                        },
+                        "RIGHT": {
+                          "block": {
+                            "type": "Button",
+                            "id": "o!1,2%tpy*q}h%=n+4~W",
+                            "fields": {
+                              "button": "ButtonL",
+                              "value": "0"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "DO": {
+                    "block": {
+                      "type": "led_control",
+                      "id": "fK2Yb::6}PK^Lg{G,k}#",
+                      "fields": {
+                        "COLOR": "#000a00"
+                      },
+                      "inputs": {
+                        "value": {
+                          "shadow": {
+                            "type": "math_number",
+                            "id": "7fj(`iY#IrRiTd1e/7yw",
+                            "fields": {
+                              "NUM": 2
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "led_control",
+                          "id": "!_7kmlAiWVfI|DPWa3:i",
+                          "fields": {
+                            "COLOR": "#000000"
+                          },
+                          "inputs": {
+                            "value": {
+                              "shadow": {
+                                "type": "math_number",
+                                "id": "[khWQXv4MS]5SKaYny8}",
+                                "fields": {
+                                  "NUM": 1
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

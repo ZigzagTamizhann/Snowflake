@@ -1,0 +1,43 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "JMSZkBR*rYg30%@wR)VT",
+        "x": 77,
+        "y": 105,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayocolor_sensor_init",
+              "id": "3-pSJhkFtTXLDe_p~~SL",
+              "fields": {
+                "csda": "39",
+                "cscl": "13"
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "serial_print",
+              "id": "(Eei}kw1Z6]@rdZ[VAzW",
+              "inputs": {
+                "CONTENT": {
+                  "block": {
+                    "type": "color_sensor",
+                    "id": "ybr*!WyP]3`:9BL%mr9h",
+                    "fields": {
+                      "value": "Green"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

@@ -1,0 +1,23 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "sju2`/tnqIBd3=s%DT,j",
+        "x": 230,
+        "y": 180
+      },
+      {
+        "type": "led_sequence",
+        "id": "_x4kpXtNqwM~@(]EOuD8",
+        "x": 932,
+        "y": 689,
+        "fields": {
+          "value": "2"
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

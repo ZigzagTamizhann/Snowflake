@@ -1,0 +1,86 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "R2BuhL9e{M|n[[01uDBl",
+        "x": -4,
+        "y": 343,
+        "inputs": {
+          "loop": {
+            "block": {
+              "type": "custom_if",
+              "id": "]N3@84o7.tO%[B(z|G@W",
+              "inputs": {
+                "IF0": {
+                  "block": {
+                    "type": "evenodd",
+                    "id": "#.Sy$uXI/!+Q6R6B=b(E",
+                    "fields": {
+                      "operation": "even"
+                    },
+                    "inputs": {
+                      "value": {
+                        "shadow": {
+                          "type": "math_number",
+                          "id": "CEu)FEeok@ztWHr]RPT2",
+                          "fields": {
+                            "NUM": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "DO0": {
+                  "block": {
+                    "type": "serial_print",
+                    "id": "95R/cV$i}G+rl6hRC{V{",
+                    "inputs": {
+                      "CONTENT": {
+                        "block": {
+                          "type": "text",
+                          "id": "aI^2O%v3cCB|SM),{]4M",
+                          "fields": {
+                            "TEXT": "true"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "custom_else",
+                  "id": "afcgi0LKA7,1CfjD26L@",
+                  "inputs": {
+                    "DO": {
+                      "block": {
+                        "type": "serial_print",
+                        "id": "jKCQ4#j{r$N]z=+`U7=U",
+                        "inputs": {
+                          "CONTENT": {
+                            "block": {
+                              "type": "text",
+                              "id": "F.tIrIlTqg1adrX^rTm7",
+                              "fields": {
+                                "TEXT": "false"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

@@ -1,0 +1,50 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "~(qSOl)rm6^:HL9K1SC-",
+        "x": 99,
+        "y": 101,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayoOleddisplay",
+              "id": "/3sA;1O8kA~[k8IdW1p]",
+              "fields": {
+                "sda": "39",
+                "scl": "13"
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "Display",
+              "id": "bK`,t.2*#*w=kVZ]@,_#",
+              "fields": {
+                "text": "hi"
+              },
+              "next": {
+                "block": {
+                  "type": "conf",
+                  "id": "af_YF4Sij~)q4Yciy|L-",
+                  "next": {
+                    "block": {
+                      "type": "delay",
+                      "id": "E68%!0[_|Kre)G_kC7n@",
+                      "fields": {
+                        "ms": "1000"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}
