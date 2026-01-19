@@ -1,0 +1,196 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "|B@gipqmA?-+23)u5$(+",
+        "x": 238,
+        "y": 8,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayosetupMotor",
+              "id": "e2Jmj0Tj:GmA.N}sEPEG",
+              "fields": {
+                "M1A": "4",
+                "M1B": "39",
+                "M2A": "13",
+                "M2B": "38"
+              },
+              "next": {
+                "block": {
+                  "type": "cayosensor_pin",
+                  "id": "R9i`erWS9U.X]]?!sl]$",
+                  "fields": {
+                    "value": "IR1",
+                    "pinnumber": "14",
+                    "type": "DIGITAL"
+                  },
+                  "next": {
+                    "block": {
+                      "type": "cayosensor_pin",
+                      "id": "M#pJwsz^d[(/I$U2bJBQ",
+                      "fields": {
+                        "value": "IR2",
+                        "pinnumber": "48",
+                        "type": "DIGITAL"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "serial_print",
+              "id": "ML*sRFbiIq~DUn`rfg)%",
+              "inputs": {
+                "CONTENT": {
+                  "block": {
+                    "type": "ir",
+                    "id": "+X]AFDO.}5)ez+h+.J]u",
+                    "fields": {
+                      "value": "IR1"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "serial_print",
+                  "id": "V84gN%YIRjK1[9rDEr9*",
+                  "inputs": {
+                    "CONTENT": {
+                      "block": {
+                        "type": "ir",
+                        "id": "%qx3|d8gi|kF0|i~n;m5",
+                        "fields": {
+                          "value": "IR2"
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "custom_if",
+                      "id": "+-($dow+R.uU7p-zU~zV",
+                      "inputs": {
+                        "IF0": {
+                          "block": {
+                            "type": "custom_compare",
+                            "id": "+1BRPn@P^)N3C|h2/qAv",
+                            "fields": {
+                              "OP": "EQ"
+                            },
+                            "inputs": {
+                              "A": {
+                                "block": {
+                                  "type": "ir",
+                                  "id": "R@7lH%DrCIj=$zz..+bs",
+                                  "fields": {
+                                    "value": "IR1"
+                                  }
+                                }
+                              },
+                              "B": {
+                                "block": {
+                                  "type": "input_value",
+                                  "id": "nVk([@x.a|i,q`:/^(,Z",
+                                  "fields": {
+                                    "value": 1
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "DO0": {
+                          "block": {
+                            "type": "runMotor",
+                            "id": "9/SUrq=n:9njVq`nA|S3",
+                            "fields": {
+                              "dir": "F",
+                              "speed": 255
+                            },
+                            "next": {
+                              "block": {
+                                "type": "all_led_control",
+                                "id": "m$1?T9Fg=g72tr[cMb-a",
+                                "fields": {
+                                  "COLOR": "#15ff00"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "custom_if",
+                          "id": "}#:fF)G!o-]Ow8^Ea0R#",
+                          "inputs": {
+                            "IF0": {
+                              "block": {
+                                "type": "custom_compare",
+                                "id": "{zcK+5}ebxW}^F#`6cf+",
+                                "fields": {
+                                  "OP": "EQ"
+                                },
+                                "inputs": {
+                                  "A": {
+                                    "block": {
+                                      "type": "ir",
+                                      "id": ".37mN_]QH}=G]LpJ=Ms%",
+                                      "fields": {
+                                        "value": "IR2"
+                                      }
+                                    }
+                                  },
+                                  "B": {
+                                    "block": {
+                                      "type": "input_value",
+                                      "id": "w(8IC%X1]][,=cT6*(sg",
+                                      "fields": {
+                                        "value": 1
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "DO0": {
+                              "block": {
+                                "type": "runMotor",
+                                "id": "l,_.wCj7JOv_}%`K9SaF",
+                                "fields": {
+                                  "dir": "B",
+                                  "speed": 255
+                                },
+                                "next": {
+                                  "block": {
+                                    "type": "all_led_control",
+                                    "id": "RMZph/p+|Uf(1Y.=OIh$",
+                                    "fields": {
+                                      "COLOR": "#b300ff"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}

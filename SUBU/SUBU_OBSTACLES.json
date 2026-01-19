@@ -1,0 +1,167 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "setup",
+        "id": "|B@gipqmA?-+23)u5$(+",
+        "x": 306,
+        "y": 123,
+        "inputs": {
+          "setup": {
+            "block": {
+              "type": "cayosetupMotor",
+              "id": "e2Jmj0Tj:GmA.N}sEPEG",
+              "fields": {
+                "M1A": "4",
+                "M1B": "39",
+                "M2A": "13",
+                "M2B": "38"
+              },
+              "next": {
+                "block": {
+                  "type": "cayoconnect_us1",
+                  "id": "iD@M/kYDaa3MpfO]U^=-",
+                  "fields": {
+                    "ID": "US1",
+                    "echo": "14",
+                    "trigger": "48"
+                  }
+                }
+              }
+            }
+          },
+          "loop": {
+            "block": {
+              "type": "serial_print",
+              "id": "ML*sRFbiIq~DUn`rfg)%",
+              "inputs": {
+                "CONTENT": {
+                  "block": {
+                    "type": "US1",
+                    "id": ".[K+;wi|Gx#c0]$?rwj9",
+                    "fields": {
+                      "value": "US1"
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "custom_if",
+                  "id": "+-($dow+R.uU7p-zU~zV",
+                  "inputs": {
+                    "IF0": {
+                      "block": {
+                        "type": "custom_compare",
+                        "id": "-!QN`tILcc[cl9yLuN(R",
+                        "fields": {
+                          "OP": "LT"
+                        },
+                        "inputs": {
+                          "A": {
+                            "block": {
+                              "type": "US1",
+                              "id": "g47px,~m#,TjGk8^Pn,G",
+                              "fields": {
+                                "value": "US1"
+                              }
+                            }
+                          },
+                          "B": {
+                            "block": {
+                              "type": "input_value",
+                              "id": "Zmt3$([rndYEz2#fp!t3",
+                              "fields": {
+                                "value": 20
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "DO0": {
+                      "block": {
+                        "type": "runMotor",
+                        "id": "VYNo-iM3SR#+B/SLMB=+",
+                        "fields": {
+                          "dir": "S",
+                          "speed": 0
+                        },
+                        "next": {
+                          "block": {
+                            "type": "all_led_control",
+                            "id": "JLk0SoX,I`7ie$@fxJ8_",
+                            "fields": {
+                              "COLOR": "#ff0015"
+                            },
+                            "next": {
+                              "block": {
+                                "type": "delay",
+                                "id": "})cbx(Q12^0V-6oMnv*$",
+                                "fields": {
+                                  "ms": "500"
+                                },
+                                "next": {
+                                  "block": {
+                                    "type": "runMotor",
+                                    "id": "ursP^vmIu|fEucq1h~^B",
+                                    "fields": {
+                                      "dir": "L",
+                                      "speed": 255
+                                    },
+                                    "next": {
+                                      "block": {
+                                        "type": "delay",
+                                        "id": "CSHvXU|JcE12_{W~J4n2",
+                                        "fields": {
+                                          "ms": "500"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "custom_else",
+                      "id": "R/|.Y8b5jl`,/p,UpQ8J",
+                      "inputs": {
+                        "DO": {
+                          "block": {
+                            "type": "runMotor",
+                            "id": "9/SUrq=n:9njVq`nA|S3",
+                            "fields": {
+                              "dir": "F",
+                              "speed": 255
+                            },
+                            "next": {
+                              "block": {
+                                "type": "all_led_control",
+                                "id": "m$1?T9Fg=g72tr[cMb-a",
+                                "fields": {
+                                  "COLOR": "#15ff00"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "selectedKit": "subo"
+}
