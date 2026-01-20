@@ -1,6 +1,6 @@
 import time
 from machine import Pin, PWM # type: ignore
-import Snowflake # type: ignore
+import Subu # type: ignore
 class Motor:
     def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed):
         """Initializes the motor driver pins using PWM for speed control."""
@@ -82,16 +82,16 @@ class LED:
     def set_all(self, r, g, b):
         """Sets all LEDs to the same color."""
         for i in range(1, self.NUM_LEDS + 1):
-            Snowflake.setSingleLED(i, (r, g, b))
+            Subu.setSingleLED(i, (r, g, b))
 
     def off(self):
         """Turns all LEDs off."""
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.30)
-ir_sensor = IRSensor(left_pin=Snowflake.IO13, right_pin=Snowflake.IO15)
-led = LED(num_leds=9)
+motor = Motor(a1_pin=Subu.IO17, a2_pin=Subu.IO18, b1_pin=Subu.IO19, b2_pin=Subu.IO20, speed=0.30)
+ir_sensor = IRSensor(left_pin=Subu.IO13, right_pin=Subu.IO15)
+led = LED(num_leds=48)
    
 print("Line Following Robot - Starting...")
 
@@ -99,7 +99,7 @@ print("Line Following Robot - Starting...")
 try:
     # Startup LED sequence
     for i in range(1, led.NUM_LEDS + 1):
-        Snowflake.setSingleLED(i, (0, 0, 255))  # Blue
+        Subu.setSingleLED(i, (0, 0, 255))  # Blue
         time.sleep_ms(50)
     time.sleep_ms(500)
     led.off()
