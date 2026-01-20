@@ -1,6 +1,6 @@
 import time
 from machine import Pin, PWM, time_pulse_us # type: ignore
-import Snowflake # type: ignore
+import Subu # type: ignore
 
 class Motor:
     def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.8):
@@ -75,27 +75,27 @@ class LED:
 
     def set_all(self, r, g, b):
         for i in range(1, self.NUM_LEDS + 1):
-            Snowflake.setSingleLED(i, (r, g, b))
+            Subu.setSingleLED(i, (r, g, b))
 
     def off(self):
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.4, turn_speed=0.6)
-ir_sensor = IRSensor(left_pin=Snowflake.IO15, right_pin=Snowflake.IO13)
-ultrasonic = Ultrasonic(trigger_pin=Snowflake.IO12, echo_pin=Snowflake.IO11)
+motor = Motor(a1_pin=Subu.IO17, a2_pin=Subu.IO18, b1_pin=Subu.IO19, b2_pin=Subu.IO20, speed=0.4, turn_speed=0.6)
+ir_sensor = IRSensor(left_pin=Subu.IO15, right_pin=Subu.IO13)
+ultrasonic = Ultrasonic(trigger_pin=Subu.IO12, echo_pin=Subu.IO11)
 led = LED(num_leds=9)
 
 # --- Configuration ---
-FOLLOW_DISTANCE_MAX_CM = 30  # இந்த தூரத்திற்குள் கண்டறிந்தால் பின்தொடர ஆரம்பிக்கும்
-FOLLOW_DISTANCE_MIN_CM = 10  # இந்த தூரத்தை அடைந்ததும் நின்றுவிடும்
+FOLLOW_DISTANCE_MAX_CM = 30 
+FOLLOW_DISTANCE_MIN_CM = 10
 
 print("Follow Me Robot - Starting...")
 
 try:
     # Startup LED sequence
     for i in range(1, led.NUM_LEDS + 1):
-        Snowflake.setSingleLED(i, (0, 0, 255))  # Blue
+        Subu.setSingleLED(i, (0, 0, 255))  # Blue
         time.sleep_ms(50)
     time.sleep(1)
     led.off()

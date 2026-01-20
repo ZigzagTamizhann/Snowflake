@@ -1,6 +1,7 @@
 import time
 from machine import Pin, PWM # type: ignore
 import Subu # type: ignore
+
 class Motor:
     def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed):
         """Initializes the motor driver pins using PWM for speed control."""
@@ -28,7 +29,7 @@ class Motor:
         self.duty_cycle = int(speed * 65535)
         
         # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.8 * 65535)
+        self.turn_duty_cycle = int(0.5 * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)
@@ -89,8 +90,8 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Subu.IO17, a2_pin=Subu.IO18, b1_pin=Subu.IO19, b2_pin=Subu.IO20, speed=0.30)
-ir_sensor = IRSensor(left_pin=Subu.IO13, right_pin=Subu.IO15)
+motor = Motor(a1_pin=Subu.IO5, a2_pin=Subu.IO6, b1_pin=Subu.IO8, b2_pin=Subu.IO7, speed=0.40)
+ir_sensor = IRSensor(left_pin=Subu.IO2, right_pin=Subu.IO4)
 led = LED(num_leds=48)
    
 print("Line Following Robot - Starting...")
@@ -130,7 +131,7 @@ try:
             print("Turn Right")
             led.set_all(255, 150, 0)  # Yellow # type: ignore
             motor.turn_right()
-            time.sleep_ms(100)
+            time.sleep_ms(50)
 
         # Case 4: Both sensors on black line (e.g., intersection or end) -> Stop
         elif left_val == 1 and right_val == 1:
@@ -139,7 +140,7 @@ try:
             motor.stop()
             time.sleep_ms(5000)
             motor.forward()
-            time.sleep_ms(100)
+            time.sleep_ms(50)
 
         time.sleep_ms(10)
 
