@@ -29,7 +29,7 @@ class Motor:
         self.duty_cycle = int(speed * 65535)
         
         # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.8 * 65535)
+        self.turn_duty_cycle = int(0.4 * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)

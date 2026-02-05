@@ -86,7 +86,7 @@ class LED:
 # Define all hardware pins here for easy configuration.
 
 # --- Initialize Modules with Pins ---
-motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.3)
+motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.5)
 ir_sensor = IRSensor(left_pin=Snowflake.IO15, right_pin=Snowflake.IO13)
 led = LED(num_leds=9)
 

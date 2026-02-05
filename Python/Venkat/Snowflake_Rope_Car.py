@@ -29,7 +29,7 @@ class Motor:
         self.duty_cycle = int(speed * 65535)
         
         # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.8 * 65535)
+        self.turn_duty_cycle = int(0.4 * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)
@@ -90,8 +90,8 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO20, b2_pin=Subu.IO21, speed=0.40)
-ir_sensor = IRSensor(left_pin=Subu.IO15, right_pin=Subu.IO13)
+motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO21, b2_pin=Subu.IO20, speed=0.4)
+ir_sensor = IRSensor(left_pin=Subu.IO1, right_pin=Subu.IO4)
 led = LED(num_leds=48)
    
 print("Rope Car - Moving Forward...")

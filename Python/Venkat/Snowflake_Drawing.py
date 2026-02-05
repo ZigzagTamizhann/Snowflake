@@ -25,7 +25,7 @@ class Motor:
         """Sets motor speed. speed is a value between 0.0 and 1.0."""
         speed = max(0.0, min(1.0, speed)) # Clamp speed between 0 and 1
         self.duty_cycle = int(speed * 65535)
-        self.turn_duty_cycle = int(0.8 * 65535) # Separate, higher speed for turning
+        self.turn_duty_cycle = int(0.4 * 65535) # Separate, higher speed for turning
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)

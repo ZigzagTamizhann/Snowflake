@@ -28,7 +28,7 @@ class Motor:
         self.duty_cycle = int(speed * 65535)
         
         # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.8 * 65535)
+        self.turn_duty_cycle = int(0.4 * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)
@@ -89,7 +89,7 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.30)
+motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.50)
 ir_sensor = IRSensor(left_pin=Snowflake.IO15, right_pin=Snowflake.IO13)
 led = LED(num_leds=9)
    

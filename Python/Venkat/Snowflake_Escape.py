@@ -1,12 +1,10 @@
 import time
-from machine import Pin, PWM, time_pulse_us  # type: ignore
-import Subu  # type: ignore
+from machine import Pin, PWM, time_pulse_us # type: ignore
+import Subu # type: ignore
 
-# -------------------------------
-# MOTOR CLASS
-# -------------------------------
 class Motor:
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed, turn_speed=0.65):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.5):
+        """Initializes the motor driver pins using PWM for speed control."""
         self.motor_a1 = PWM(Pin(a1_pin))
         self.motor_a2 = PWM(Pin(a2_pin))
         self.motor_b1 = PWM(Pin(b1_pin))
@@ -20,153 +18,143 @@ class Motor:
         self.stop()
 
     def set_speed(self, speed, turn_speed):
-        self.speed = int(max(0.0, min(1.0, speed)) * 65535)
-        self.turn_speed = int(max(0.0, min(1.0, turn_speed)) * 65535)
+        """Sets motor speeds. speed is a value between 0.0 and 1.0."""
+        self.duty_cycle = int(max(0.0, min(1.0, speed)) * 65535)
+        self.turn_duty_cycle = int(max(0.0, min(1.0, turn_speed)) * 65535)
 
     def forward(self):
-        self.motor_a1.duty_u16(self.speed); self.motor_a2.duty_u16(0)
-        self.motor_b1.duty_u16(self.speed); self.motor_b2.duty_u16(0)
+        self.motor_a1.duty_u16(self.duty_cycle); self.motor_a2.duty_u16(0)
+        self.motor_b1.duty_u16(self.duty_cycle); self.motor_b2.duty_u16(0)
 
     def backward(self):
-        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(self.speed)
-        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(self.speed)
+        """Moves the robot backward."""
+        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(self.duty_cycle)
+        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(self.duty_cycle)
 
     def turn_left(self):
-        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(self.turn_speed)
-        self.motor_b1.duty_u16(self.turn_speed); self.motor_b2.duty_u16(0)
+        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(self.turn_duty_cycle)
+        self.motor_b1.duty_u16(self.turn_duty_cycle); self.motor_b2.duty_u16(0)
 
     def turn_right(self):
-        self.motor_a1.duty_u16(self.turn_speed); self.motor_a2.duty_u16(0)
-        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(self.turn_speed)
+        self.motor_a1.duty_u16(self.turn_duty_cycle); self.motor_a2.duty_u16(0)
+        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(self.turn_duty_cycle)
 
     def stop(self):
         self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(0)
         self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(0)
 
-
-# -------------------------------
-# IR CLASS
-# -------------------------------
 class IRSensor:
     def __init__(self, left_pin, right_pin):
-        self.left = Pin(left_pin, Pin.IN)
-        self.right = Pin(right_pin, Pin.IN)
+        self.left_ir_pin = Pin(left_pin, Pin.IN)
+        self.right_ir_pin = Pin(right_pin, Pin.IN)
 
-    def read(self):
-        # 0 = wall close, 1 = no wall
-        return self.left.value(), self.right.value()
+    def read_values(self):
+        # Assuming 0 means detection (obstacle is near)
+        return (self.left_ir_pin.value(), self.right_ir_pin.value())
 
-
-# -------------------------------
-# ULTRASONIC CLASS
-# -------------------------------
 class Ultrasonic:
-    def __init__(self, trig, echo):
-        self.trig = Pin(trig, Pin.OUT)
-        self.echo = Pin(echo, Pin.IN)
+    def __init__(self, trigger_pin, echo_pin):
+        self.trigger = Pin(trigger_pin, Pin.OUT)
+        self.echo = Pin(echo_pin, Pin.IN)
 
-    def distance(self):
-        self.trig.low()
-        time.sleep_us(5)
-        self.trig.high()
-        time.sleep_us(10)
-        self.trig.low()
-
+    def distance_cm(self):
+        self.trigger.value(0); time.sleep_us(2)
+        self.trigger.value(1); time.sleep_us(10)
+        self.trigger.value(0)
         try:
-            pulse = time_pulse_us(self.echo, 1, 30000)
-            return (pulse * 0.0343) / 2
-        except:
-            return 999  # No reading
+            # Measure the pulse duration on the echo pin
+            pulse_duration = time_pulse_us(self.echo, 1, 30000)  # 30ms timeout
+            distance = (pulse_duration * 0.0343) / 2
+            return distance
+        except OSError:
+            return float('inf')
 
-
-# -------------------------------
-# LED CLASS
-# -------------------------------
 class LED:
     def __init__(self, num_leds):
-        self.num = num_leds
+        self.NUM_LEDS = num_leds
 
     def set_all(self, r, g, b):
-        for i in range(1, self.num + 1):
+        for i in range(1, self.NUM_LEDS + 1):
             Subu.setSingleLED(i, (r, g, b))
 
     def off(self):
         self.set_all(0, 0, 0)
 
+# --- Hardware Initialization ---
+motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO21, b2_pin=Subu.IO20, speed=0.4, turn_speed=0.6)
+ir_sensor = IRSensor(left_pin=Subu.IO1, right_pin=Subu.IO4)
+ultrasonic = Ultrasonic(trigger_pin=Subu.IO2, echo_pin=Subu.IO3)
+led = LED(num_leds=48)
 
-# -------------------------------
-# INITIALIZATION
-# -------------------------------
-motor = Motor(
-    a1_pin=Subu.IO3,
-    a2_pin=Subu.IO4,
-    b1_pin=Subu.IO5,
-    b2_pin=Subu.IO6,
-    speed=0.45,
-    turn_speed=0.65,
-)
+# --- Configuration ---
+FOLLOW_DISTANCE_MAX_CM = 30  
+FOLLOW_DISTANCE_MIN_CM = 10  
 
-ir = IRSensor(left_pin=Subu.IO17, right_pin=Subu.IO18)
-ultra = Ultrasonic(trig=Subu.IO15, echo=Subu.IO16)
-led = LED(48)
+print("Follow Me Robot - Starting...")
 
-print("Maze Solver V3 Ultra — Starting…")
-
-time.sleep(1)
-led.set_all(0, 0, 255)
-
-
-# -------------------------------
-# MAZE LOGIC — RIGHT HAND RULE
-# -------------------------------
-def maze_solver():
+try:
+    # Startup LED sequence
+    for i in range(1, led.NUM_LEDS + 1):
+        Subu.setSingleLED(i, (0, 0, 255))  # Blue
+        time.sleep_ms(50)
+    time.sleep(1)
+    led.off()
 
     while True:
+        distance = ultrasonic.distance_cm()
+        # Assuming IR sensor returns 0 for detection, 1 for no detection
+        left_val, right_val = ir_sensor.read_values()
 
-        dist = ultra.distance()
-        L, R = ir.read()  # 1 = free, 0 = wall
+        print(f"Distance: {distance:.1f} cm, IR: L={left_val} R={right_val}")
 
-        print(f"Front={dist:.1f}  Left={L}  Right={R}")
+        # விதி 1: பொருள் மிக அருகில் இருந்தால் (10 செ.மீ.க்குள்), நின்றுவிடும்.
+        if distance < FOLLOW_DISTANCE_MIN_CM and distance > 0:
+            print("Object too close. Stopping.")
+            motor.set_speed(1.0, 0.6) # வேகத்தை முழுமையாக்குகிறது
+            motor.forward()
+            led.set_all(0, 255, 0) # Red for stop
 
-        # PRIORITY 1 — TURN RIGHT if free
-        if R == 1:
-            print("Right available → Turning Right")
-            led.set_all(255, 150, 0)
+        # விதி 2: பொருள் பின்தொடரும் தூரத்தில் இருந்தால் (10-30 செ.மீ.), பின்தொடரவும்.
+        elif distance < FOLLOW_DISTANCE_MAX_CM and distance > FOLLOW_DISTANCE_MIN_CM:
+            print("Object ahead. Moving forward.")
+            motor.set_speed(0.4, 0.6) # சாதாரண வேகத்திற்கு திரும்புகிறது
+            led.set_all(255, 0, 0)  # Green for following
+            motor.backward()
+                
+        elif left_val == 1 and right_val == 0: # இடது IR மட்டும் கண்டறிந்தால்
+            print("Object on the left. Turning left.")
+            led.set_all(255, 150, 0)  # Orange for turning+
+            motor.turn_left()
+            
+        elif left_val == 0 and right_val == 1: # வலது IR மட்டும் கண்டறிந்தால்
+            print("Object on the right. Turning right.")
+            led.set_all(255, 150, 0)  # Orange for turning
             motor.turn_right()
-            time.sleep(0.35)
-            continue
-
-        # PRIORITY 2 — If front blocked → Turn Left
-        if dist < 15:
-            print("Front blocked → Turning Left")
-            led.set_all(255, 0, 0)
+            
+        elif left_val == 0 and right_val == 0:
+            print("Object on the both Side")
+            led.set_all(255, 255, 0)  # Orange for turning
             motor.turn_left()
-            time.sleep(0.35)
-            continue
+            time.sleep_ms(100) # Loop delay
+            motor.turn_right()
+            time.sleep_ms(100) # Loop delay
+            
+            
+        else:
+            # விதி 3: பொருள் தொலைவில் இருந்தால் (30 செ.மீ.க்கு மேல்), நின்றுவிடும்.
+            
+            print("Object lost or too far. Waiting.")
+            motor.stop()
+            led.set_all(0, 0, 255) # Blue for waiting
 
-        # PRIORITY 3 — Left open → Turn left
-        if L == 1:
-            print("Left available → Turning Left")
-            led.set_all(255, 255, 0)
-            motor.turn_left()
-            time.sleep(0.35)
-            continue
-
-        # PRIORITY 4 — GO FORWARD
-        print("Clear path → Forward")
-        led.set_all(0, 255, 0)
-        motor.forward()
-
-        time.sleep(0.05)
-
-
-# -------------------------------
-# RUN
-# -------------------------------
-try:
-    maze_solver()
+        time.sleep_ms(50) # Loop delay
 
 except KeyboardInterrupt:
+    print("Program stopped by user.")
     motor.stop()
     led.off()
-    print("Stopped by user.")
+
+                                                                            
+
+
+

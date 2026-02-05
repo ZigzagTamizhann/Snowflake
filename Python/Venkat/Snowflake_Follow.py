@@ -3,7 +3,7 @@ from machine import Pin, PWM, time_pulse_us # type: ignore
 import Subu # type: ignore
 
 class Motor:
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.8):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.5):
         """Initializes the motor driver pins using PWM for speed control."""
         self.motor_a1 = PWM(Pin(a1_pin))
         self.motor_a2 = PWM(Pin(a2_pin))
@@ -81,14 +81,14 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO20, b2_pin=Subu.IO21, speed=0.4, turn_speed=0.6)
-ir_sensor = IRSensor(left_pin=Subu.IO15, right_pin=Subu.IO13)
-ultrasonic = Ultrasonic(trigger_pin=Subu.IO11, echo_pin=Subu.IO12)
+motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO21, b2_pin=Subu.IO20, speed=0.4, turn_speed=0.6)
+ir_sensor = IRSensor(left_pin=Subu.IO1, right_pin=Subu.IO4)
+ultrasonic = Ultrasonic(trigger_pin=Subu.IO2, echo_pin=Subu.IO3)
 led = LED(num_leds=48)
 
 # --- Configuration ---
-FOLLOW_DISTANCE_MAX_CM = 30  # இந்த தூரத்திற்குள் கண்டறிந்தால் பின்தொடர ஆரம்பிக்கும்
-FOLLOW_DISTANCE_MIN_CM = 10  # இந்த தூரத்தை அடைந்ததும் நின்றுவிடும்
+FOLLOW_DISTANCE_MAX_CM = 30  
+FOLLOW_DISTANCE_MIN_CM = 10  
 
 print("Follow Me Robot - Starting...")
 
@@ -108,14 +108,14 @@ try:
         print(f"Distance: {distance:.1f} cm, IR: L={left_val} R={right_val}")
 
         # விதி 1: பொருள் மிக அருகில் இருந்தால் (10 செ.மீ.க்குள்), நின்றுவிடும்.
-        if distance < FOLLOW_DISTANCE_MIN_CM:
+        if distance < FOLLOW_DISTANCE_MIN_CM and distance > 0:
             print("Object too close. Stopping.")
             motor.set_speed(1.0, 0.6) # வேகத்தை முழுமையாக்குகிறது
             motor.backward()
             led.set_all(255, 0, 0) # Red for stop
 
         # விதி 2: பொருள் பின்தொடரும் தூரத்தில் இருந்தால் (10-30 செ.மீ.), பின்தொடரவும்.
-        elif distance < FOLLOW_DISTANCE_MAX_CM:
+        elif distance < FOLLOW_DISTANCE_MAX_CM and distance > FOLLOW_DISTANCE_MIN_CM:
             print("Object ahead. Moving forward.")
             motor.set_speed(0.4, 0.6) # சாதாரண வேகத்திற்கு திரும்புகிறது
             led.set_all(0, 255, 0)  # Green for following
@@ -123,13 +123,13 @@ try:
                 
         elif left_val == 0 and right_val == 1: # இடது IR மட்டும் கண்டறிந்தால்
             print("Object on the left. Turning left.")
-            led.set_all(255, 150, 0)  # Orange for turning
-            motor.turn_right()
+            led.set_all(255, 150, 0)  # Orange for turning+
+            motor.turn_left()
             
         elif left_val == 1 and right_val == 0: # வலது IR மட்டும் கண்டறிந்தால்
             print("Object on the right. Turning right.")
             led.set_all(255, 150, 0)  # Orange for turning
-            motor.turn_left()
+            motor.turn_right()
             
         elif left_val == 0 and right_val == 0:
             print("Object on the both Side")
@@ -142,6 +142,7 @@ try:
             
         else:
             # விதி 3: பொருள் தொலைவில் இருந்தால் (30 செ.மீ.க்கு மேல்), நின்றுவிடும்.
+            
             print("Object lost or too far. Waiting.")
             motor.stop()
             led.set_all(0, 0, 255) # Blue for waiting
@@ -154,3 +155,5 @@ except KeyboardInterrupt:
     led.off()
 
                                                                             
+
+

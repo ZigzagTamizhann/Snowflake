@@ -3,7 +3,7 @@ from machine import Pin, PWM, time_pulse_us # type: ignore
 import Subu # type: ignore
 
 class Motor:
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.8):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.5):
         """Initializes the motor driver pins using PWM for speed control."""
         self.motor_a1 = PWM(Pin(a1_pin))
         self.motor_a2 = PWM(Pin(a2_pin))

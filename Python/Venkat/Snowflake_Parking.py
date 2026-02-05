@@ -86,8 +86,8 @@ class LED:
 # Define all hardware pins here for easy configuration.
 
 # --- Initialize Modules with Pins ---
-motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO20, b2_pin=Subu.IO21, speed=0.3)
-ir_sensor = IRSensor(left_pin=Subu.IO15, right_pin=Subu.IO13)
+motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO21, b2_pin=Subu.IO20, speed=0.4)
+ir_sensor = IRSensor(left_pin=Subu.IO1, right_pin=Subu.IO4)
 led = LED(num_leds=48)
 
 print("Line Following Robot with Parking - Starting...")
