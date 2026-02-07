@@ -2,63 +2,46 @@ import time
 from machine import Pin, PWM # type: ignore
 import Subu # type: ignore
 class Motor:
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed, Turn):
         """Initializes the motor driver pins using PWM for speed control."""
-        # Initialize pins as PWM objects
         self.motor_a1 = PWM(Pin(a1_pin))
         self.motor_a2 = PWM(Pin(a2_pin))
         self.motor_b1 = PWM(Pin(b1_pin))
         self.motor_b2 = PWM(Pin(b2_pin))
 
-        # Set a common frequency for all motor PWM pins
         freq = 1000
-        self.motor_a1.freq(freq)
-        self.motor_a2.freq(freq)
-        self.motor_b1.freq(freq)
-        self.motor_b2.freq(freq)
+        for m in [self.motor_a1, self.motor_a2, self.motor_b1, self.motor_b2]:
+            m.freq(freq)
 
-        # Set the speed (duty cycle)
-        self.set_speed(speed)
-
+        self.set_speed(speed, Turn)
         self.stop()
 
-    def set_speed(self, speed):
-        """Sets motor speed. speed is a value between 0.0 and 1.0."""
-        speed = max(0.0, min(1.0, speed)) # Clamp speed between 0 and 1
-        self.duty_cycle = int(speed * 65535)
-        
-        # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.4 * 65535)
+    def set_speed(self, speed, Turn):
+        """Sets motor speeds. speed is a value between 0.0 and 1.0."""
+        self.duty_cycle = int(max(0.0, min(1.0, speed)) * 65535)
+        self.turn_duty_cycle = int(max(0.0, min(1.0, Turn)) * 65535)
 
     def forward(self):
-        self.motor_a1.duty_u16(self.duty_cycle)
-        self.motor_a2.duty_u16(0)
-        self.motor_b1.duty_u16(self.duty_cycle)
-        self.motor_b2.duty_u16(0)
+        self.motor_a1.duty_u16(self.duty_cycle); self.motor_a2.duty_u16(0)
+        self.motor_b1.duty_u16(self.duty_cycle); self.motor_b2.duty_u16(0)
 
     def backward(self):
-        self.motor_a1.duty_u16(0)
-        self.motor_a2.duty_u16(self.duty_cycle)
-        self.motor_b1.duty_u16(0)
-        self.motor_b2.duty_u16(self.duty_cycle)
+        """Moves the robot backward."""
+        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(self.duty_cycle)
+        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(self.duty_cycle)
 
     def turn_left(self):
-        self.motor_a1.duty_u16(self.turn_duty_cycle)
-        self.motor_a2.duty_u16(0)
-        self.motor_b1.duty_u16(0)
-        self.motor_b2.duty_u16(self.turn_duty_cycle)
+        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(self.turn_duty_cycle)
+        self.motor_b1.duty_u16(self.turn_duty_cycle); self.motor_b2.duty_u16(0)
 
     def turn_right(self):
-        self.motor_a1.duty_u16(0)
-        self.motor_a2.duty_u16(self.turn_duty_cycle)
-        self.motor_b1.duty_u16(self.turn_duty_cycle)
-        self.motor_b2.duty_u16(0)
+        self.motor_a1.duty_u16(self.turn_duty_cycle); self.motor_a2.duty_u16(0)
+        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(self.turn_duty_cycle)
 
     def stop(self):
-        self.motor_a1.duty_u16(0)
-        self.motor_a2.duty_u16(0)
-        self.motor_b1.duty_u16(0)
-        self.motor_b2.duty_u16(0)
+        self.motor_a1.duty_u16(0); self.motor_a2.duty_u16(0)
+        self.motor_b1.duty_u16(0); self.motor_b2.duty_u16(0)
+
 
 class IRSensor:
     def __init__(self, left_pin, right_pin):
@@ -89,9 +72,22 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO20, b2_pin=Subu.IO21, speed=0.4)
-ir_sensor = IRSensor(left_pin=Subu.IO1, right_pin=Subu.IO4)
-led = LED(num_leds=48)
+In1 = Subu.IO18
+In2 = Subu.IO19
+In3 = Subu.IO20
+In4 = Subu.IO21
+
+speed = 0.4
+Turn = 0.4
+
+left_pin = Subu.IO1
+right_pin = Subu.IO4
+
+num_leds = 48
+
+motor = Motor(In1, In2, In3, In4, speed, Turn)
+ir_sensor = IRSensor(left_pin, right_pin)
+led = LED(num_leds)
    
 print("Line Following Robot - Starting...")
 
@@ -130,13 +126,16 @@ try:
             print("Turn Right")
             led.set_all(255, 150, 0)  # Yellow # type: ignore
             motor.turn_right()
-            time.sleep_ms(50)
+            time.sleep_ms(100)
 
         # Case 4: Both sensors on black line (e.g., intersection or end) -> Stop
         elif left_val == 1 and right_val == 1:
             print("Line end or intersection. Stopping.")
             led.set_all(255, 0, 0)  # Red # type: ignore
             motor.stop()
+            time.sleep_ms(5000)
+            motor.forward()
+            time.sleep_ms(100)
 
         time.sleep_ms(10)
 
@@ -145,6 +144,12 @@ except KeyboardInterrupt:
     # Cleanly stop motors and turn off LEDs
     led.off() # type: ignore
     motor.stop()
+
+
+
+
+
+
 
 
 

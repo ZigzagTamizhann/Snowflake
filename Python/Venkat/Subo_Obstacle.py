@@ -7,7 +7,7 @@ import random
 
 class Motor:
     """Controls the robot's motors using PWM for variable speed."""
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.7):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed, Turn):
         self.motor_a1 = PWM(Pin(a1_pin))
         self.motor_a2 = PWM(Pin(a2_pin))
         self.motor_b1 = PWM(Pin(b1_pin))
@@ -17,12 +17,12 @@ class Motor:
         for m in [self.motor_a1, self.motor_a2, self.motor_b1, self.motor_b2]:
             m.freq(freq)
 
-        self.set_speed(speed, turn_speed)
+        self.set_speed(speed, Turn)
         self.stop()
 
-    def set_speed(self, speed, turn_speed):
+    def set_speed(self, speed, Turn):
         self.duty_cycle = int(max(0.0, min(1.0, speed)) * 65535)
-        self.turn_duty_cycle = int(max(0.0, min(1.0, turn_speed)) * 65535)
+        self.turn_duty_cycle = int(max(0.0, min(1.0, Turn)) * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle); self.motor_a2.duty_u16(0)
@@ -69,20 +69,28 @@ class LED:
     def off(self): self.set_all(0, 0, 0)
 # --- Main Program ---
 # --- Pin Definitions ---
-# Define all hardware pins here for easy configuration.
 
-# Motor A (Left) Pins
-motor_a1 = Pin(Subu.IO3, Pin.OUT)
-motor_a2 = Pin(Subu.IO4, Pin.OUT)
-# Motor B (Right) Pins  
-motor_b1 = Pin(Subu.IO5, Pin.OUT)
-motor_b2 = Pin(Subu.IO6, Pin.OUT)
-# Ultrasonic Sensor Pins
-# --- Initialize Modules with Pins ---
-motor = Motor(Subu.IO3, Subu.IO4, Subu.IO5, Subu.IO6)
-ultrasonic = Ultrasonic(trigger_pin=Subu.IO9, echo_pin=Subu.IO10)
-led = LED()
+# --- Hardware Initialization ---
+
+In1 = Subu.IO18
+In2 = Subu.IO19
+In3 = Subu.IO20
+In4 = Subu.IO21
+
+speed = 0.4
+Turn = 0.4
+
+Trig = Subu.IO1
+Echo = Subu.IO4
+
+num_leds = 48
+
 OBSTACLE_DISTANCE_CM = 20
+
+ultrasonic = Ultrasonic(Trig, Echo)
+motor = Motor(In1, In2, In3, In4, speed, Turn)
+led = LED(num_leds)
+
 
 print("Obstacle Avoiding Car - Starting...")
 

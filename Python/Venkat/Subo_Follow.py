@@ -3,7 +3,7 @@ from machine import Pin, PWM, time_pulse_us # type: ignore
 import Subu # type: ignore
 
 class Motor:
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed=0.5, turn_speed=0.5):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed, Turn):
         """Initializes the motor driver pins using PWM for speed control."""
         self.motor_a1 = PWM(Pin(a1_pin))
         self.motor_a2 = PWM(Pin(a2_pin))
@@ -14,13 +14,13 @@ class Motor:
         for m in [self.motor_a1, self.motor_a2, self.motor_b1, self.motor_b2]:
             m.freq(freq)
 
-        self.set_speed(speed, turn_speed)
+        self.set_speed(speed, Turn)
         self.stop()
 
-    def set_speed(self, speed, turn_speed):
+    def set_speed(self, speed, Turn):
         """Sets motor speeds. speed is a value between 0.0 and 1.0."""
         self.duty_cycle = int(max(0.0, min(1.0, speed)) * 65535)
-        self.turn_duty_cycle = int(max(0.0, min(1.0, turn_speed)) * 65535)
+        self.turn_duty_cycle = int(max(0.0, min(1.0, Turn)) * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle); self.motor_a2.duty_u16(0)
@@ -81,10 +81,26 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Subu.IO18, a2_pin=Subu.IO19, b1_pin=Subu.IO21, b2_pin=Subu.IO20, speed=0.4, turn_speed=0.6)
-ir_sensor = IRSensor(left_pin=Subu.IO1, right_pin=Subu.IO4)
-ultrasonic = Ultrasonic(trigger_pin=Subu.IO2, echo_pin=Subu.IO3)
-led = LED(num_leds=48)
+In1 = Subu.IO18
+In2 = Subu.IO19
+In3 = Subu.IO20
+In4 = Subu.IO21
+
+speed = 0.4
+Turn = 0.4
+
+left_pin = Subu.IO1
+right_pin = Subu.IO4
+
+num_leds = 48
+
+Trig = Subu.IO2
+Echo = Subu.IO3
+
+motor = Motor(In1, In2, In3, In4, speed, Turn)
+ir_sensor = IRSensor(left_pin, right_pin)
+ultrasonic = Ultrasonic(Trig, Echo)
+led = LED(num_leds)
 
 # --- Configuration ---
 FOLLOW_DISTANCE_MAX_CM = 30  
@@ -111,22 +127,22 @@ try:
         if distance < FOLLOW_DISTANCE_MIN_CM and distance > 0:
             print("Object too close. Stopping.")
             motor.set_speed(1.0, 0.6) # வேகத்தை முழுமையாக்குகிறது
-            motor.forward()
-            led.set_all(0, 255, 0) # Red for stop
+            motor.backward()
+            led.set_all(255, 0, 0) # Red for stop
 
         # விதி 2: பொருள் பின்தொடரும் தூரத்தில் இருந்தால் (10-30 செ.மீ.), பின்தொடரவும்.
         elif distance < FOLLOW_DISTANCE_MAX_CM and distance > FOLLOW_DISTANCE_MIN_CM:
             print("Object ahead. Moving forward.")
             motor.set_speed(0.4, 0.6) # சாதாரண வேகத்திற்கு திரும்புகிறது
-            led.set_all(255, 0, 0)  # Green for following
-            motor.backward()
+            led.set_all(0, 255, 0)  # Green for following
+            motor.forward()
                 
-        elif left_val == 1 and right_val == 0: # இடது IR மட்டும் கண்டறிந்தால்
+        elif left_val == 0 and right_val == 1: # இடது IR மட்டும் கண்டறிந்தால்
             print("Object on the left. Turning left.")
             led.set_all(255, 150, 0)  # Orange for turning+
             motor.turn_left()
             
-        elif left_val == 0 and right_val == 1: # வலது IR மட்டும் கண்டறிந்தால்
+        elif left_val == 1 and right_val == 0: # வலது IR மட்டும் கண்டறிந்தால்
             print("Object on the right. Turning right.")
             led.set_all(255, 150, 0)  # Orange for turning
             motor.turn_right()
@@ -155,6 +171,5 @@ except KeyboardInterrupt:
     led.off()
 
                                                                             
-
 
 

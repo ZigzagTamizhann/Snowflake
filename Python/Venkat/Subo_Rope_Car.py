@@ -1,6 +1,7 @@
 import time
 from machine import Pin, PWM # type: ignore
 import Subu # type: ignore
+
 class Motor:
     def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed):
         """Initializes the motor driver pins using PWM for speed control."""
@@ -27,9 +28,6 @@ class Motor:
         speed = max(0.0, min(1.0, speed)) # Clamp speed between 0 and 1
         self.duty_cycle = int(speed * 65535)
         
-        # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.45 * 65535)
-
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)
         self.motor_a2.duty_u16(0)
@@ -41,18 +39,6 @@ class Motor:
         self.motor_a2.duty_u16(self.duty_cycle)
         self.motor_b1.duty_u16(0)
         self.motor_b2.duty_u16(self.duty_cycle)
-
-    def turn_left(self):
-        self.motor_a1.duty_u16(self.turn_duty_cycle)
-        self.motor_a2.duty_u16(0)
-        self.motor_b1.duty_u16(0)
-        self.motor_b2.duty_u16(self.turn_duty_cycle)
-
-    def turn_right(self):
-        self.motor_a1.duty_u16(0)
-        self.motor_a2.duty_u16(self.turn_duty_cycle)
-        self.motor_b1.duty_u16(self.turn_duty_cycle)
-        self.motor_b2.duty_u16(0)
 
     def stop(self):
         self.motor_a1.duty_u16(0)
@@ -89,73 +75,54 @@ class LED:
         self.set_all(0, 0, 0)
 
 # --- Hardware Initialization ---
-motor = Motor(a1_pin=Subu.IO20, a2_pin=Subu.IO21, b1_pin=Subu.IO19, b2_pin=Subu.IO18, speed=0.35)
-ir_sensor = IRSensor(left_pin=Subu.IO4, right_pin=Subu.IO1)
-led = LED(num_leds=48)
+In1 = Subu.IO18
+In2 = Subu.IO19
+In3 = Subu.IO20
+In4 = Subu.IO21
+
+speed = 0.4
+
+left_pin = Subu.IO1
+right_pin = Subu.IO4
+
+num_leds = 48
+
+motor = Motor(In1, In2, In3, In4, speed)
+ir_sensor = IRSensor(left_pin, right_pin)
+led = LED(num_leds)
+
    
-print("Line Following Robot - Starting...")
+print("Rope Car - Moving Forward...")
 
 # --- Main Program Loop ---
+moving_forward = True # Start by moving forward
+
 try:
-    # Startup LED sequence
-    for i in range(1, led.NUM_LEDS + 1):
-        Subu.setSingleLED(i, (0, 0, 255))  # Blue
-        time.sleep_ms(50)
-    time.sleep_ms(500)
-    led.off()
-
     while True:
-        # Read sensor values. Assuming 0 = Black Line, 1 = White  
-        left_val, right_val = ir_sensor.read_line() # type: ignore
-        
-        print(f"Sensor values: Left={left_val}, Right={right_val}")
+        # Read sensor values
+        left_val, right_val = ir_sensor.read_line()
+        print(f"Left IR: {left_val}, Right IR: {right_val}") # Assuming 0 is detection
 
-        # --- Line Following Logic ---
+        # If left sensor detects, set direction to backward
+        if right_val == 0:
+            moving_forward = False
+        # If right sensor detects, set direction to forward
+        elif left_val == 0:
+            moving_forward = True
 
-        # Case 1: Both sensors on white surface -> Move forward
-        if left_val == 0 and right_val == 0:
-            print("Forward")
-            led.set_all(0, 255, 0)  # Green # type: ignore
+        # Move the robot based on the current direction state
+        if moving_forward:
+            print("Direction: Forward")
             motor.forward()
+        else:
+            print("Direction: Backward")
+            motor.backward()
 
-        # Case 2: Right sensor on black line -> Turn right
-        elif left_val == 0 and right_val == 1:
-            print("Turn Left")
-            led.set_all(255, 150, 0)  # Yellow # type: ignore
-            motor.turn_left()
-            time.sleep_ms(50)
-        
-        # Case 3: Left sensor on black line -> Turn left
-        elif left_val == 1 and right_val == 0:
-            print("Turn Right")
-            led.set_all(255, 150, 0)  # Yellow # type: ignore
-            motor.turn_right()
-            time.sleep_ms(100)
-
-        # Case 4: Both sensors on black line (e.g., intersection or end) -> Stop
-        elif left_val == 1 and right_val == 1:
-            print("Line end or intersection. Stopping.")
-            led.set_all(255, 0, 0)  # Red # type: ignore
-            motor.stop()
-            time.sleep_ms(5000)
-            motor.forward()
-            time.sleep_ms(100)
-
-        time.sleep_ms(10)
+        time.sleep_ms(100) # Increased delay to make printing readable
 
 except KeyboardInterrupt:
     print("Program stopped by user.")
     # Cleanly stop motors and turn off LEDs
-    led.off() # type: ignore
     motor.stop()
-
-
-
-
-
-
-
-
-
-
-
+    led.off()
+    print("Robot has stopped.")
