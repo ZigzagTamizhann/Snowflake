@@ -136,9 +136,9 @@ def start_patrol():
     # --- Robot State ---
     robot_row = 0
     robot_col = 0
-    robot_orientation = EAST  # தொடக்கத்தில் கிழக்கு திசையை நோக்கி இருக்கும்
+    robot_orientation = EAST  # Initially facing East
     
-    # ரோபோவின் நிலையை கண்காணிக்க புதிய மாறிகள்
+    # New variables to track robot status
     # 'IDLE', 'MOVING', 'TURNING_R', 'TURNING_L'
     robot_action = 'IDLE'
     action_start_time = 0
@@ -215,7 +215,7 @@ def start_patrol():
                 action_start_time = time.ticks_ms()
                 action_duration = MOVE_CELL_DURATION * 1000
 
-        time.sleep_ms(50) # Loop delay to prevent high CPU usage
+        time.sleep_ms(50) 
 
 if __name__ == "__main__":
     try:

@@ -87,7 +87,7 @@ OBSTACLE_DISTANCE_CM = 20
 print("Obstacle Avoiding Car - Starting...")
 
 try:
-    # Startup LED sequence
+    
     for i in range(1, led.NUM_LEDS + 1):
         Snowflake.setSingleLED(i, (0, 0, 255)) # Blue
         time.sleep_ms(50)

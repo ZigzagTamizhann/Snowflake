@@ -104,7 +104,7 @@ def main():
                 led.set_all(0, 0, 255) # Blue for right
                 motor.turn_right()
             elif command == 'S':
-                led.set_all(255, 0, 0) # Red for stop
+                led.set_all(255, 0, 0) 
                 motor.stop()
             elif command.startswith('V'):
                 try:

@@ -113,7 +113,7 @@ print("Edge Avoiding Robot - Starting...")
 
 # --- Main Program Loop ---
 try:
-    # Startup LED sequence
+    
     for i in range(1, led.NUM_LEDS + 1):
         Subu.setSingleLED(i, (0, 0, 255))  # Blue
         time.sleep_ms(50)
@@ -139,7 +139,7 @@ try:
             
         elif left_val == 1 and right_val == 1:
             print("Edge detected! Avoiding...")
-            led.set_all(255, 0, 0) # Red for Stop/Backward
+            led.set_all(255, 0, 0) /Backward
             motor.backward()
             time.sleep_ms(1000) # Back up for 0.5 seconds
             

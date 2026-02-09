@@ -1,9 +1,9 @@
 import time
 from machine import Pin, PWM # type: ignore
-import Snowflake # type: ignore
+import Subu # type: ignore
 
 class Motor:
-    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed):
+    def __init__(self, a1_pin, a2_pin, b1_pin, b2_pin, speed, Turn):
         """Initializes the motor driver pins using PWM for speed control."""
         # Initialize pins as PWM objects
         self.motor_a1 = PWM(Pin(a1_pin))
@@ -19,17 +19,17 @@ class Motor:
         self.motor_b2.freq(freq)
 
         # Set the speed (duty cycle)
-        self.set_speed(speed)
+        self.set_speed(speed, Turn)
 
         self.stop()
 
-    def set_speed(self, speed):
+    def set_speed(self, speed, Turn):
         """Sets motor speed. speed is a value between 0.0 and 1.0."""
         speed = max(0.0, min(1.0, speed)) # Clamp speed between 0 and 1
         self.duty_cycle = int(speed * 65535)
         
         # Set a separate, max-speed duty cycle for turning
-        self.turn_duty_cycle = int(0.5 * 65535)
+        self.turn_duty_cycle = int(Turn * 65535)
 
     def forward(self):
         self.motor_a1.duty_u16(self.duty_cycle)
@@ -68,34 +68,55 @@ class IRSensor:
         self.right_ir_pin = Pin(right_pin, Pin.IN)
 
     def read_line(self):
-        """Reads the state of the IR sensors."""
+        """
+        Reads the state of the left and right IR sensors.
+        Returns a tuple (left_value, right_value).
+        Typically, 0 means a black line is detected, and 1 means a white surface.
+        """
         return (self.left_ir_pin.value(), self.right_ir_pin.value())
 
 class LED:
     def __init__(self, num_leds):
+        """Initializes the LED strip."""
         self.NUM_LEDS = num_leds
 
     def set_all(self, r, g, b):
+        """Sets all LEDs to the same color."""
         for i in range(1, self.NUM_LEDS + 1):
-            Snowflake.setSingleLED(i, (r, g, b))
+            Subu.setSingleLED(i, (r, g, b))
 
     def off(self):
+        """Turns all LEDs off."""
         self.set_all(0, 0, 0)
 
-# --- Pin Definitions ---
-# Define all hardware pins here for easy configuration.
+# --- Hardware Initialization ---
 
-# --- Initialize Modules with Pins ---
-motor = Motor(a1_pin=Snowflake.IO17, a2_pin=Snowflake.IO18, b1_pin=Snowflake.IO19, b2_pin=Snowflake.IO20, speed=0.5)
-ir_sensor = IRSensor(left_pin=Snowflake.IO15, right_pin=Snowflake.IO13)
-led = LED(num_leds=9)
+In1 = Subu.IO18
+In2 = Subu.IO19
+In3 = Subu.IO20
+In4 = Subu.IO21
 
-print("Line Following Robot with Parking - Starting...")
+speed = 0.4
+Turn = 0.4
+
+left_pin = Subu.IO1
+right_pin = Subu.IO4
+
+num_leds = 48
+
+
+motor = Motor(In1, In2, In3, In4, speed, Turn)
+ir_sensor = IRSensor(left_pin, right_pin)
+led = LED(num_leds)
+   
+print("Line Following Robot - Starting...")
+
+# --- Main Program Loop ---
 
 try:
-    # Startup LED sequence
+    
     for i in range(1, led.NUM_LEDS + 1):
-        Snowflake.setSingleLED(i, (0, 0, 255))  # Blue
+        Subu.setSingleLED(i, (0, 0, 255))  # Blue
         time.sleep_ms(50)
     time.sleep_ms(1000)
     led.off()
@@ -159,9 +180,7 @@ try:
             # Step 3: Turn Left (1st time) and find the next intersection
             print("Step 3: Turning left (1/2)...")
             motor.turn_left()
-            time.sleep_ms(200) # Adjust for a 90-degree turn
-            motor.turn_left()
-            time.sleep_ms(200) # Adjust for a 90-degree turn
+            time.sleep_ms(400)
             motor.stop()
             time.sleep_ms(1000) # Adjust for a 90-degree turn
             l, r = ir_sensor.read_line()
@@ -176,7 +195,8 @@ try:
                 # Step 5: Parked
                 print("PARKED!")
                 led.set_all(255, 0, 0)  # Solid Red to indicate parked
-                while True:
+                l, r = ir_sensor.read_line()
+                while l == 1 and r == 1:
                     motor.stop()
                 time.sleep(1)
                 
@@ -188,9 +208,3 @@ except KeyboardInterrupt:
     # Cleanly stop motors and turn off LEDs
     led.off()
     motor.stop()
-
-
-
-
-
-

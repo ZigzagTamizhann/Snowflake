@@ -49,7 +49,7 @@ class IRSensor:
         self.right_ir_pin = Pin(right_pin, Pin.IN)
 
     def read_values(self):
-        # Assuming 0 means detection (obstacle is near)
+        
         return (self.left_ir_pin.value(), self.right_ir_pin.value())
 
 class Ultrasonic:
@@ -62,7 +62,7 @@ class Ultrasonic:
         self.trigger.value(1); time.sleep_us(10)
         self.trigger.value(0)
         try:
-            # Measure the pulse duration on the echo pin
+            
             pulse_duration = time_pulse_us(self.echo, 1, 30000)  # 30ms timeout
             distance = (pulse_duration * 0.0343) / 2
             return distance
@@ -93,7 +93,7 @@ FOLLOW_DISTANCE_MIN_CM = 10  # இந்த தூரத்தை அடைந�
 print("Follow Me Robot - Starting...")
 
 try:
-    # Startup LED sequence
+    
     for i in range(1, led.NUM_LEDS + 1):
         Snowflake.setSingleLED(i, (0, 0, 255))  # Blue
         time.sleep_ms(50)
@@ -102,51 +102,51 @@ try:
 
     while True:
         distance = ultrasonic.distance_cm()
-        # Assuming IR sensor returns 0 for detection, 1 for no detection
+        
         left_val, right_val = ir_sensor.read_values()
 
         print(f"Distance: {distance:.1f} cm, IR: L={left_val} R={right_val}")
 
-        # விதி 1: பொருள் மிக அருகில் இருந்தால் (10 செ.மீ.க்குள்), நின்றுவிடும்.
+       
         if distance < FOLLOW_DISTANCE_MIN_CM:
             print("Object too close. Stopping.")
-            motor.set_speed(1.0, 0.6) # வேகத்தை முழுமையாக்குகிறது
+            motor.set_speed(1.0, 0.6)
             motor.backward()
-            led.set_all(255, 0, 0) # Red for stop
+            led.set_all(255, 0, 0) 
 
-        # விதி 2: பொருள் பின்தொடரும் தூரத்தில் இருந்தால் (10-30 செ.மீ.), பின்தொடரவும்.
+        
         elif distance < FOLLOW_DISTANCE_MAX_CM:
             print("Object ahead. Moving forward.")
-            motor.set_speed(0.4, 0.6) # சாதாரண வேகத்திற்கு திரும்புகிறது
-            led.set_all(0, 255, 0)  # Green for following
+            motor.set_speed(0.4, 0.6) 
+            led.set_all(0, 255, 0)  
             motor.forward()
                 
-        elif left_val == 0 and right_val == 1: # இடது IR மட்டும் கண்டறிந்தால்
+        elif left_val == 0 and right_val == 1: 
             print("Object on the left. Turning left.")
-            led.set_all(255, 150, 0)  # Orange for turning
+            led.set_all(255, 150, 0) 
             motor.turn_right()
             
-        elif left_val == 1 and right_val == 0: # வலது IR மட்டும் கண்டறிந்தால்
+        elif left_val == 1 and right_val == 0: 
             print("Object on the right. Turning right.")
-            led.set_all(255, 150, 0)  # Orange for turning
+            led.set_all(255, 150, 0) 
             motor.turn_left()
             
         elif left_val == 0 and right_val == 0:
             print("Object on the both Side")
-            led.set_all(255, 255, 0)  # Orange for turning
+            led.set_all(255, 255, 0) 
             motor.turn_left()
-            time.sleep_ms(100) # Loop delay
+            time.sleep_ms(100)
             motor.turn_right()
-            time.sleep_ms(100) # Loop delay
+            time.sleep_ms(100)
             
             
         else:
-            # விதி 3: பொருள் தொலைவில் இருந்தால் (30 செ.மீ.க்கு மேல்), நின்றுவிடும்.
+            
             print("Object lost or too far. Waiting.")
             motor.stop()
             led.set_all(0, 0, 255) # Blue for waiting
 
-        time.sleep_ms(50) # Loop delay
+        time.sleep_ms(50)
 
 except KeyboardInterrupt:
     print("Program stopped by user.")

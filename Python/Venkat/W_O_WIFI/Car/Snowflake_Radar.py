@@ -8,8 +8,8 @@ import threading
 #hi       
 
 # --- Configuration ---
-# உங்கள் Snowflake போர்டு இணைக்கப்பட்டுள்ள COM போர்ட்டை இங்கே மாற்றவும்
-SERIAL_PORT = 'COM39'  # உங்கள் Snowflake போர்டு இணைக்கப்பட்டுள்ள COM போர்ட்டை இங்கே மாற்றவும்
+# Change the COM port here where your Snowflake board is connected
+SERIAL_PORT = 'COM39'  # Change the COM port here where your Snowflake board is connected
 BAUD_RATE = 115200
 HTTP_PORT = 8000
 
@@ -28,7 +28,7 @@ shutdown_event = threading.Event()
 
 # --- Serial Reader Thread ---
 def serial_reader():
-    """சீரியல் போர்ட்டிலிருந்து தொடர்ந்து படிக்கும் ஒரு த்ரெட்."""
+    """Thread that continuously reads from the serial port."""
     global state
     try:
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
@@ -52,7 +52,7 @@ def serial_reader():
                         match = re.search(r"Distance measured: ([\d\.]+)", line)
                         if match: state["distance"] = float(match.group(1))
                     elif "STATUS:" in line:
-                        # STATUS: க்குப் பிறகு வரும் செய்தியை நேரடியாகப் பயன்படுத்தவும்
+                        # Use the message directly after STATUS:
                         state["status"] = line.split("STATUS:", 1)[1].strip()
         except serial.SerialException as e:
             print(f"Serial connection error: {e}. Closing thread.")
@@ -240,21 +240,21 @@ def run_server():
         shutdown_event.set() # Signal other threads to stop
 
 if __name__ == "__main__":
-    # வெப் சர்வரை ஒரு தனி த்ரெட்டில் தொடங்கவும்
+    # Start the web server in a separate thread
     server_thread = threading.Thread(target=run_server)
     server_thread.start()
 
-    # சர்வர் தொடங்கும் வரை காத்திருக்கவும்
+    # Wait for the server to start
     while httpd is None and server_thread.is_alive() and not shutdown_event.is_set():
         pass
 
     if not shutdown_event.is_set():
-        # சீரியல் ரீடரை ஒரு தனி த்ரெட்டில் தொடங்கவும்
+        # Start the serial reader in a separate thread
         serial_thread = threading.Thread(target=serial_reader)
         serial_thread.start()
 
     try:
-        # பிரதான த்ரெட் இயங்கிக் கொண்டிருக்கட்டும், இதனால் மற்ற த்ரெட்கள் இயங்கும்
+        # Let the main thread run so other threads can run
         server_thread.join()
         if 'serial_thread' in locals():
             serial_thread.join()

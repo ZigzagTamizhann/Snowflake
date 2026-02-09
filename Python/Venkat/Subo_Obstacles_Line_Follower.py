@@ -1,5 +1,5 @@
 import time
-from machine import Pin, PWM # type: ignore
+from machine import Pin, PWM,time_pulse_us # type: ignore
 import Subu # type: ignore
 
 # --- Icon Definitions ---
@@ -87,6 +87,24 @@ class IRSensor:
         Typically, 0 means a black line is detected, and 1 means a white surface.
         """
         return (self.left_ir_pin.value(), self.right_ir_pin.value())
+    
+    
+class Ultrasonic:
+    """Measures distance using an HC-SR04 ultrasonic sensor."""
+    def __init__(self, trigger_pin, echo_pin):
+        self.trigger = Pin(trigger_pin, Pin.OUT)
+        self.echo = Pin(echo_pin, Pin.IN)
+
+    def get_distance_cm(self):
+        self.trigger.value(0); time.sleep_us(2)
+        self.trigger.value(1); time.sleep_us(10)
+        self.trigger.value(0)
+        try:
+            pulse_duration = time_pulse_us(self.echo, 1, 30000) # 30ms timeout
+            return (pulse_duration * 0.0343) / 2
+        except OSError:
+            return -1
+
 
 class LED:
     def __init__(self, num_leds):
@@ -128,12 +146,17 @@ right_pin = Subu.IO4
 
 num_leds = 48
 
+Trig = Subu.IO2
+Echo = Subu.IO3
+
+OBSTACLE_DISTANCE_CM = 20
 
 led = LED(num_leds)
 motor = Motor(In1, In2, In3, In4, speed, Turn, led)
 ir_sensor = IRSensor(left_pin, right_pin)
 
 led.off()
+ultrasonic = Ultrasonic(Trig, Echo)
    
 print("Line Following Robot - Starting...")
 
@@ -147,33 +170,45 @@ try:
     led.off()
 
     while True:
+        distance = ultrasonic.get_distance_cm()
+        # Print the measured distance
+        if distance != -1:
+            print(f"Distance: {distance:.1f} cm")
+        else:
+            print("Distance: Timeout")
+
+        if distance != -1 and distance > OBSTACLE_DISTANCE_CM:
         
-        left_val, right_val = ir_sensor.read_line() # type: ignore
-        
-        print(f"Sensor values: Left={left_val}, Right={right_val}")
+            left_val, right_val = ir_sensor.read_line() # type: ignore
+            
+            print(f"Sensor values: Left={left_val}, Right={right_val}")
 
-        # --- Line Following Logic ---
+            # --- Line Following Logic ---
 
-        # Case 1: Both sensors on white surface -> Move forward
-        if left_val == 0 and right_val == 0:
-            print("Forward") # Green # type: ignore
-            motor.forward()
+            # Case 1: Both sensors on white surface -> Move forward
+            if left_val == 0 and right_val == 0:
+                print("Forward") # Green # type: ignore
+                motor.forward()
 
-        # Case 2: Right sensor on black line -> Turn right
-        elif left_val == 0 and right_val == 1:
-            print("Turn Left") # Yellow # type: ignore
-            motor.turn_left()
-            time.sleep_ms(50)
-        
-        # Case 3: Left sensor on black line -> Turn left
-        elif left_val == 1 and right_val == 0:
-            print("Turn Right") # Yellow # type: ignore
-            motor.turn_right()
-            time.sleep_ms(50)
+            # Case 2: Right sensor on black line -> Turn right
+            elif left_val == 0 and right_val == 1:
+                print("Turn Left") # Yellow # type: ignore
+                motor.turn_left()
+                time.sleep_ms(50)
+            
+            # Case 3: Left sensor on black line -> Turn left
+            elif left_val == 1 and right_val == 0:
+                print("Turn Right") # Yellow # type: ignore
+                motor.turn_right()
+                time.sleep_ms(50)
 
-        # Case 4: Both sensors on black line (e.g., intersection or end) -> Stop
-        elif left_val == 1 and right_val == 1:
-            print("Line end or intersection. Stopping.")
+            # Case 4: Both sensors on black line (e.g., intersection or end) -> Stop
+            elif left_val == 1 and right_val == 1:
+                print("Line end or intersection. Stopping.")
+                motor.stop()
+        else:
+            print("No obstacle detected. Stopping.")
+            led.off() # type: ignore
             motor.stop()
 
         time.sleep_ms(10)

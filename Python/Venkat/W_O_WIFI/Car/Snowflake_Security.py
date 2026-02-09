@@ -215,7 +215,7 @@ def start_patrol():
                 action_start_time = time.ticks_ms()
                 action_duration = MOVE_CELL_DURATION * 1000
 
-        time.sleep_ms(50) # Loop delay to prevent high CPU usage
+        time.sleep_ms(50) to prevent high CPU usage
 
 if __name__ == "__main__":
     try:

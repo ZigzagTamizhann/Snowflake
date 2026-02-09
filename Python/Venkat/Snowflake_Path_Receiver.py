@@ -97,7 +97,7 @@ def main():
                 motor.forward()
                 time.sleep(1) # Move forward for 1 second
                 motor.stop()
-                led.set_all(255, 0, 0)# Red for stop
+                led.set_all(255, 0, 0)
                 time.sleep(0.5)
             elif command == 'L': # Turn Left
                 led.set_all(0, 0, 255) # Blue for left
@@ -114,7 +114,7 @@ def main():
                 led.set_all(255, 0, 0)
                 time.sleep(0.5)
             elif command == 'S': # Stop
-                led.set_all(255, 0, 0) # Red for stop
+                led.set_all(255, 0, 0) 
                 motor.stop()
                 led.set_all(255, 0, 0)
                 time.sleep(0.5)

@@ -98,7 +98,7 @@ print("Line Following Robot - Starting...")
 
 # --- Main Program Loop ---
 try:
-    # Startup LED sequence
+    
     for i in range(1, led.NUM_LEDS + 1):
         Subu.setSingleLED(i, (0, 0, 255))  # Blue
         time.sleep_ms(50)
@@ -106,7 +106,7 @@ try:
     led.off()
 
     while True:
-        # Read sensor values. Assuming 0 = Black Line, 1 = White  
+        
         left_val, right_val = ir_sensor.read_line() # type: ignore
         
         print(f"Sensor values: Left={left_val}, Right={right_val}")
